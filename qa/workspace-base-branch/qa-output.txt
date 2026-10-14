@@ -1,0 +1,845 @@
+Working directory: packages/server
+$ npx vitest run src/utils/checkout-git.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 <checkout>/packages/server
+
+Switched to a new branch 'release'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to branch 'release'
+Switched to branch 'feature'
+To /tmp/checkout-git-test-58e733/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-58e733/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-0bZ14O/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-0bZ14O/upstream-clone'...
+done.
+To /tmp/checkout-git-test-ljUjyg/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-ljUjyg/upstream-clone'...
+done.
+Switched to a new branch 'feature/rebase-test'
+Switched to branch 'main'
+Switched to branch 'feature/rebase-test'
+Switched to a new branch 'feature/old-name'
+fatal: 'refs/heads/feature/old-name' - not a valid ref
+Switched to a new branch 'feature/old-name'
+Switched to a new branch 'feature/rename'
+To /tmp/checkout-git-test-jDReh2/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-jDReh2/upstream-clone'...
+done.
+To /tmp/checkout-git-test-cfDxEr/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-cfDxEr/upstream-clone'...
+done.
+To /tmp/checkout-git-test-BaOBpl/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-BaOBpl/upstream-clone'...
+done.
+Switched to a new branch 'feature/facts'
+To /tmp/checkout-git-test-mngO8c/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-mngO8c/clone'...
+done.
+To /tmp/checkout-git-test-mngO8c/remote.git
+   f613595..f4bef59  main -> main
+From /tmp/checkout-git-test-mngO8c/remote
+   f613595..f4bef59  main       -> origin/main
+To /tmp/checkout-git-test-mngO8c/remote.git
+   f4bef59..96aca8f  main -> main
+From /tmp/checkout-git-test-mngO8c/remote
+   f4bef59..96aca8f  main       -> origin/main
+To /tmp/checkout-git-test-fUoSAo/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-fUoSAo/upstream-clone'...
+done.
+To /tmp/checkout-git-test-fUoSAo/fork.git
+ * [new branch]      main -> main
+To /tmp/checkout-git-test-ArB9Xt/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-ArB9Xt/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-ArB9Xt/remote.git
+ * [new branch]      HEAD -> other-name
+To /tmp/checkout-git-test-g0MRaw/fork.git
+ * [new branch]      main -> main
+To /tmp/checkout-git-test-M07GHH/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-M07GHH/upstream-clone'...
+done.
+To /tmp/checkout-git-test-vnJL9r/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-vnJL9r/upstream-clone'...
+done.
+Switched to a new branch 'local-only'
+To /tmp/checkout-git-test-UCZHhB/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-UCZHhB/upstream-clone'...
+done.
+Switched to a new branch 'aaronzhongg/open-button-targets-active-file'
+To /tmp/checkout-git-test-UCZHhB/pr-remote.git
+ * [new branch]      HEAD -> open-button-targets-active-file
+To /tmp/checkout-git-test-DskoNM/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-DskoNM/upstream-clone'...
+done.
+Switched to a new branch 'aaronzhongg/open-button-targets-active-file'
+To /tmp/checkout-git-test-DskoNM/pr-remote.git
+ * [new branch]      HEAD -> open-button-targets-active-file
+Cloning into '/tmp/checkout-git-test-DskoNM/pr-clone'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout
+Switched to a new branch 'open-button-targets-active-file'
+To /tmp/checkout-git-test-DskoNM/pr-remote.git
+   b783e36..3332233  open-button-targets-active-file -> open-button-targets-active-file
+From /tmp/checkout-git-test-DskoNM/pr-remote
+   b783e36..3332233  open-button-targets-active-file -> paseo-pr-1285/open-button-targets-active-file
+To /tmp/checkout-git-test-Pkte3E/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-Pkte3E/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-Pkte3E/remote.git
+ * [new branch]      feature -> feature
+To /tmp/checkout-git-test-Pkte3E/remote.git
+ - [deleted]         feature
+To /tmp/checkout-git-test-Hmy08b/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-Hmy08b/upstream-clone'...
+done.
+To /tmp/checkout-git-test-Hmy08b/remote.git
+   c49c169..76a5cf9  main -> main
+From /tmp/checkout-git-test-Dd2CNi/repo
+ * [new branch]      main       -> origin/main
+To /tmp/checkout-git-test-u7uASX/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-u7uASX/upstream-clone'...
+done.
+To /tmp/checkout-git-test-u7uASX/remote.git
+   b89a6e0..17c1a5b  main -> main
+From /tmp/checkout-git-test-u7uASX/remote
+   b89a6e0..17c1a5b  main       -> origin/main
+To /tmp/checkout-git-test-muTmA9/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-muTmA9/upstream-clone'...
+done.
+To /tmp/checkout-git-test-muTmA9/remote.git
+   b89a6e0..3ffb106  main -> main
+From /tmp/checkout-git-test-muTmA9/remote
+   b89a6e0..3ffb106  main       -> origin/main
+To /tmp/checkout-git-test-tDsewy/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-tDsewy/upstream-clone'...
+done.
+To /tmp/checkout-git-test-dbi1Az/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-dbi1Az/upstream-clone'...
+done.
+To /tmp/checkout-git-test-dbi1Az/remote.git
+   b89a6e0..17c1a5b  main -> main
+From /tmp/checkout-git-test-dbi1Az/remote
+   b89a6e0..17c1a5b  main       -> origin/main
+To /tmp/checkout-git-test-C4HVee/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-C4HVee/upstream-clone'...
+done.
+To /tmp/checkout-git-test-C4HVee/remote.git
+   b89a6e0..8ea4203  main -> main
+From /tmp/checkout-git-test-C4HVee/remote
+   b89a6e0..8ea4203  main       -> origin/main
+To /tmp/checkout-git-test-IzwEXR/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-IzwEXR/upstream-clone'...
+done.
+To /tmp/checkout-git-test-IzwEXR/remote.git
+   300b64f..bd6b56c  main -> main
+From /tmp/checkout-git-test-IzwEXR/remote
+   300b64f..bd6b56c  main       -> origin/main
+To /tmp/checkout-git-test-ee5uDq/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-ee5uDq/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+Already on 'main'
+To /tmp/checkout-git-test-ee5uDq/remote.git
+   b89a6e0..b42cb1e  main -> main
+From /tmp/checkout-git-test-ee5uDq/remote
+   b89a6e0..b42cb1e  main       -> origin/main
+To /tmp/checkout-git-test-9t1PGv/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-9t1PGv/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+Already on 'main'
+To /tmp/checkout-git-test-9t1PGv/remote.git
+   9031ec9..c70f5a7  main -> main
+From /tmp/checkout-git-test-9t1PGv/remote
+   9031ec9..c70f5a7  main       -> origin/main
+To /tmp/checkout-git-test-KGBwOl/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-KGBwOl/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-PwhZGi/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-PwhZGi/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-MpM3uz/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-MpM3uz/upstream-clone'...
+done.
+To /tmp/checkout-git-test-cXhdO2/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-cXhdO2/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-IxOHmS/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-IxOHmS/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-IxOHmS/remote.git
+ * [new branch]      feature -> feature
+Cloning into '/tmp/checkout-git-test-IxOHmS/feature-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-IxOHmS/remote.git
+   9031ec9..3d4e9b9  feature -> feature
+From /tmp/checkout-git-test-IxOHmS/remote
+   9031ec9..3d4e9b9  feature    -> origin/feature
+To /tmp/checkout-git-test-8FBA9E/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-8FBA9E/upstream-clone'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-8FBA9E/remote.git
+   9031ec9..e7e23a5  main -> main
+From /tmp/checkout-git-test-8FBA9E/remote
+   9031ec9..e7e23a5  main       -> origin/main
+To /tmp/checkout-git-test-vvD6RI/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-vvD6RI/upstream-clone'...
+done.
+To /tmp/checkout-git-test-PVzp5S/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-PVzp5S/upstream-clone'...
+done.
+To /tmp/checkout-git-test-irQxmg/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-irQxmg/clone'...
+done.
+To /tmp/checkout-git-test-irQxmg/remote.git
+   b2defee..fef0046  main -> main
+From /tmp/checkout-git-test-irQxmg/remote
+   b2defee..fef0046  main       -> origin/main
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-xz4p4D/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-xz4p4D/other-clone'...
+done.
+To /tmp/checkout-git-test-xz4p4D/remote.git
+   b2defee..749aeef  main -> main
+From /tmp/checkout-git-test-xz4p4D/remote
+   b2defee..749aeef  main       -> origin/main
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-a1SAcC/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-a1SAcC/other-clone'...
+done.
+To /tmp/checkout-git-test-a1SAcC/remote.git
+   b2defee..5e1c67c  main -> main
+From /tmp/checkout-git-test-a1SAcC/remote
+   b2defee..5e1c67c  main       -> origin/main
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-TEWRN3/remote.git
+ * [new branch]      main -> main
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to branch 'main'
+Switched to branch 'feature'
+Cloning into bare repository '/tmp/checkout-git-test-ZFEr0u/bare-repo'...
+done.
+Preparing worktree (checking out 'main')
+Preparing worktree (new branch 'feature/plain')
+Switched to a new branch 'feature'
+Switched to a new branch 'develop'
+Switched to branch 'main'
+Preparing worktree (checking out 'develop')
+To /tmp/checkout-git-test-Cr378h/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-Cr378h/other-clone'...
+done.
+To /tmp/checkout-git-test-Cr378h/remote.git
+   56b23b9..ab9f085  main -> main
+From /tmp/checkout-git-test-Cr378h/remote
+   56b23b9..ab9f085  main       -> origin/main
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-4twXgF/remote.git
+ * [new branch]      main -> main
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to branch 'main'
+Switched to branch 'feature'
+To /tmp/checkout-git-test-z5H6wa/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-z5H6wa/other-clone'...
+done.
+To /tmp/checkout-git-test-z5H6wa/remote.git
+   56b23b9..a9cec4f  main -> main
+To /tmp/checkout-git-test-h1Y8vh/remote.git
+ * [new branch]      main -> main
+To /tmp/checkout-git-test-6SJgwL/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-6SJgwL/other-clone'...
+done.
+To /tmp/checkout-git-test-6SJgwL/remote.git
+   6b39032..b57544c  main -> main
+To /tmp/checkout-git-test-jExQRO/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-jExQRO/other-clone'...
+done.
+To /tmp/checkout-git-test-jExQRO/remote.git
+   6b39032..65c269f  main -> main
+To /tmp/checkout-git-test-b6crgx/remote.git
+ * [new branch]      main -> main
+Switched to a new branch 'feature'
+Cloning into bare repository '/tmp/checkout-git-test-YJyA5i/origin.git'...
+done.
+Cloning into bare repository '/tmp/checkout-git-test-YJyA5i/pr-remote.git'...
+done.
+Switched to a new branch 'therainisme/main'
+From /tmp/checkout-git-test-YJyA5i/pr-remote
+ * branch            main       -> FETCH_HEAD
+ * [new branch]      main       -> paseo-pr-526/main
+Cloning into bare repository '/tmp/checkout-git-test-uWJlel/origin.git'...
+done.
+Cloning into bare repository '/tmp/checkout-git-test-uWJlel/pr-remote.git'...
+done.
+Switched to a new branch 'therainisme/main'
+Cloning into bare repository '/tmp/checkout-git-test-VKGNSS/origin.git'...
+done.
+Switched to a new branch 'feature'
+To /tmp/checkout-git-test-VKGNSS/origin.git
+ * [new branch]      feature -> feature
+Cloning into bare repository '/tmp/checkout-git-test-xiTxkv/origin.git'...
+done.
+Cloning into bare repository '/tmp/checkout-git-test-xiTxkv/upstream.git'...
+done.
+From /tmp/checkout-git-test-xiTxkv/upstream
+ * branch            main       -> FETCH_HEAD
+ * [new branch]      main       -> upstream/main
+Switched to a new branch 'contrib'
+To /tmp/checkout-git-test-PDmMzE/remote.git
+ * [new branch]      main -> main
+Switched to a new branch 'feature/local-only'
+Switched to branch 'main'
+Switched to a new branch 'feature/shared'
+To /tmp/checkout-git-test-PDmMzE/remote.git
+ * [new branch]      feature/shared -> feature/shared
+Switched to branch 'main'
+Cloning into '/tmp/checkout-git-test-PDmMzE/other-clone'...
+done.
+Switched to a new branch 'feature/remote-only'
+To /tmp/checkout-git-test-PDmMzE/remote.git
+ * [new branch]      feature/remote-only -> feature/remote-only
+From /tmp/checkout-git-test-PDmMzE/remote
+ * [new branch]      feature/remote-only -> origin/feature/remote-only
+To /tmp/checkout-git-test-LtwjIL/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-LtwjIL/diverged-clone'...
+done.
+To /tmp/checkout-git-test-LtwjIL/remote.git
+   4d9192c..e791a34  main -> main
+From /tmp/checkout-git-test-LtwjIL/remote
+   4d9192c..e791a34  main       -> origin/main
+To /tmp/checkout-git-test-2gRRBO/remote.git
+ * [new branch]      main -> main
+Switched to a new branch 'feature/local'
+Switched to branch 'main'
+Switched to a new branch 'feature/shared'
+To /tmp/checkout-git-test-2gRRBO/remote.git
+ * [new branch]      feature/shared -> feature/shared
+Switched to branch 'main'
+Cloning into '/tmp/checkout-git-test-2gRRBO/other-clone'...
+done.
+Switched to a new branch 'feature/remote-only'
+To /tmp/checkout-git-test-2gRRBO/remote.git
+ * [new branch]      feature/remote-only -> feature/remote-only
+From /tmp/checkout-git-test-2gRRBO/remote
+ * [new branch]      feature/remote-only -> origin/feature/remote-only
+Switched to a new branch 'feature/a'
+Switched to branch 'main'
+To /tmp/checkout-git-test-XQo1Bn/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-XQo1Bn/other-clone'...
+done.
+Switched to a new branch 'feature/remote-only'
+To /tmp/checkout-git-test-XQo1Bn/remote.git
+ * [new branch]      feature/remote-only -> feature/remote-only
+From /tmp/checkout-git-test-XQo1Bn/remote
+ * [new branch]      feature/remote-only -> origin/feature/remote-only
+To /tmp/checkout-git-test-u0hbOE/remote.git
+ * [new branch]      main -> main
+Cloning into '/tmp/checkout-git-test-u0hbOE/other-clone'...
+done.
+Switched to a new branch 'feature/remote-only'
+To /tmp/checkout-git-test-u0hbOE/remote.git
+ * [new branch]      feature/remote-only -> feature/remote-only
+From /tmp/checkout-git-test-u0hbOE/remote
+ * [new branch]      feature/remote-only -> origin/feature/remote-only
+To /tmp/checkout-git-test-PWfMRi/remote.git
+ * [new branch]      main -> main
+Switched to a new branch 'feature/shared'
+To /tmp/checkout-git-test-PWfMRi/remote.git
+ * [new branch]      feature/shared -> feature/shared
+Switched to branch 'main'
+Switched to a new branch 'feature/alpha'
+Switched to branch 'main'
+Switched to a new branch 'feature/beta'
+Switched to branch 'main'
+Switched to a new branch 'chore/docs'
+Switched to branch 'main'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'tender-parrot'
+Switched to a new branch 'feature'
+Preparing worktree (checking out 'contributor/old-change')
+Switched to branch 'new-change'
+Preparing worktree (checking out 'contributor/old-change')
+Switched to branch 'new-change'
+Preparing worktree (checking out 'contributor/old-change')
+Switched to branch 'new-change'
+Preparing worktree (checking out 'placeholder')
+Preparing worktree (checking out 'feature/pinned')
+Preparing worktree (checking out 'feature/unpinned')
+Preparing worktree (checking out 'contributor/old-change-1')
+Preparing worktree (checking out 'contributor/old-change')
+Switched to branch 'old-change'
+Preparing worktree (checking out 'mixedowner/old-change')
+Preparing worktree (checking out 'feature/gitlab-mr')
+Switched to a new branch 'other-branch'
+Preparing worktree (checking out 'feature/placeholder')
+Switched to a new branch 'topic'
+Switched to a new branch 'topic'
+Switched to a new branch 'topic'
+Switched to a new branch 'topic'
+Switched to a new branch 'local-feature'
+Switched to a new branch 'chethanuk/main'
+Switched to a new branch 'chethanuk/main'
+Switched to a new branch 'tender-parrot'
+Switched to a new branch 'local-feature'
+Switched to a new branch 'local-feature'
+Switched to a new branch 'tender-parrot'
+Switched to a new branch 'chethanuk/main'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'feature'
+Switched to branch 'main'
+Switched to branch 'feature'
+Switched to a new branch 'feature'
+Switched to a new branch 'develop'
+Switched to branch 'main'
+Switched to a new branch 'develop'
+Switched to branch 'main'
+Switched to a new branch 'develop'
+Switched to branch 'main'
+
+ Test Files  1 passed (1)
+      Tests  174 passed (174)
+   Start at  09:18:53
+   Duration  17.60s (transform 717ms, setup 44ms, import 990ms, tests 16.44s, environment 0ms)
+
+
+
+Working directory: packages/server
+$ npx vitest run src/server/workspace-archive-record-scoped.e2e.test.ts src/server/git-metadata-event-rules.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 <checkout>/packages/server
+
+(node:7111) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7172) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7187) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Switched to a new branch 'release'
+Switched to a new branch 'feature'
+(node:7209) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7407) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7492) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7528) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7794) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7978) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8162) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8261) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8461) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8598) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8762) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8933) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  37 passed (37)
+   Start at  09:24:03
+   Duration  32.74s (transform 9.02s, setup 53ms, import 11.10s, tests 21.33s, environment 0ms)
+
+
+
+Working directory: packages/server
+$ npx vitest run src/server/workspace-git-service.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 <checkout>/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  31 passed (31)
+   Start at  09:40:52
+   Duration  2.18s (transform 706ms, setup 45ms, import 995ms, tests 1.01s, environment 0ms)
+
+
+
+Working directory: packages/client
+$ npx vitest run src/index.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.7 <checkout>/packages/client
+
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  09:35:52
+   Duration  7.60s (transform 4.69s, setup 0ms, import 5.46s, tests 2.01s, environment 0ms)
+
+
+
+Working directory: packages/protocol
+$ npx vitest run src/messages.wire-compat.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.7 <checkout>/packages/protocol
+
+
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+   Start at  09:25:55
+   Duration  823ms (transform 349ms, setup 0ms, import 640ms, tests 33ms, environment 0ms)
+
+
+
+Working directory: packages/app
+$ npx vitest run src/i18n/resources.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.7 <checkout>/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  39 passed (39)
+   Start at  09:35:58
+   Duration  2.01s (transform 836ms, setup 65ms, import 900ms, tests 905ms, environment 1ms)
+
+
+
+Working directory: repository root
+$ E2E_RECORD_VIDEO=1 npm run test:e2e --workspace=@getpaseo/app -- e2e/browser/changes-pane.spec.ts --grep 'exact local and remote bases|failed base selection|without the base-branch capability' --workers=1
+
+> @getpaseo/app@0.11.2 test:e2e
+> playwright test --project=browser e2e/browser/changes-pane.spec.ts --grep exact local and remote bases|failed base selection|without the base-branch capability --workers=1
+
+[metro] Starting project at <checkout>/packages/app
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Experimental Expo Autolinking module resolver is enabled.
+[metro] React Compiler enabled
+[metro] Starting Metro Bundler
+[metro] Waiting on http://localhost:17537
+[metro] Logs for your project will appear below.
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] | (node:21473) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web packages/app/index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (5466/5466)
+[metro] Web Bundled 4176ms packages/app/index.ts (5466 modules)
+[e2e] Metro warmed on port 17537
+
+Running 3 tests using 1 worker
+
+(node:21562) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21562) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 0 daemon started on port 34877, home: /tmp/paseo-e2e-worker-0-GjB2wS
+Switched to a new branch 'feature'
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 275ms packages/app/index.ts (1 module)
+[metro] Web packages/app/src/attachments/web/indexeddb-attachment-store.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro]  LOG  [web] Logs will appear in the browser console
+[metro] Web Bundled 78ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 260ms packages/app/index.ts (1 module)
+[metro] Web packages/app/src/attachments/web/indexeddb-attachment-store.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 6ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+
+  ✓  1 [browser] › e2e/browser/changes-pane.spec.ts:276:5 › Changes selects exact local and remote bases and retains the selection after reload (15.1s)
+Switched to a new branch 'feature'
+[metro] Web Bundled 254ms packages/app/index.ts (1 module)
+[metro] Web packages/app/src/attachments/web/indexeddb-attachment-store.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 5ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+
+  ✓  2 [browser] › e2e/browser/changes-pane.spec.ts:308:5 › Changes shows a failed base selection and lets the user retry (8.8s)
+Switched to a new branch 'feature'
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 289ms packages/app/index.ts (1 module)
+[metro] Web packages/app/src/attachments/web/indexeddb-attachment-store.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 8ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+
+  ✓  3 [browser] › e2e/browser/changes-pane.spec.ts:331:5 › Changes asks to update a host without the base-branch capability (8.5s)
+[e2e] Worker 0 daemon stopped
+[e2e] Metro stopped
+
+  3 passed (1.0m)
+
+
+Working directory: repository root
+$ npm run build:server
+
+> paseo@0.11.2 build:server
+> npm run build:server-deps && npm run build --workspace=@getpaseo/server && npm run build --workspace=@getpaseo/cli
+
+
+> paseo@0.11.2 build:server-deps
+> npm run build:client && concurrently --kill-others-on-fail --names highlight,plugin,relay --prefix-colors yellow,green,blue "npm run build:highlight" "npm run build:plugin" "npm run build:relay"
+
+
+> paseo@0.11.2 build:client
+> npm run build --workspace=@getpaseo/client
+
+
+> @getpaseo/client@0.11.2 build
+> npm run build --workspace=@getpaseo/protocol && npm run build --workspace=@getpaseo/relay && tsc -p tsconfig.json --incremental false
+
+
+> @getpaseo/protocol@0.11.2 prebuild
+> npm run generate:validators
+
+
+> @getpaseo/protocol@0.11.2 generate:validators
+> node scripts/generate-validation-aot.mjs
+
+generated src/generated/validation/ws-outbound.aot.ts from codegen/ws-outbound.compile.ts (WSOutboundMessageSchema)
+
+> @getpaseo/protocol@0.11.2 build
+> tsc -p tsconfig.json --incremental false
+
+
+> @getpaseo/relay@0.11.2 build
+> tsc -p tsconfig.json --incremental false
+
+[relay] npm run build:relay exited with code 0
+[highlight] npm run build:highlight exited with code 0
+[plugin] npm run build:plugin exited with code 0
+
+> @getpaseo/server@0.11.2 build
+> npm run build:lib && npm run build:scripts
+
+
+> @getpaseo/server@0.11.2 build:lib
+> tsc -p tsconfig.server.json --incremental false && node scripts/build-opencode-bridge-plugin.mjs && node -e "const fs=require('node:fs'); fs.mkdirSync('dist/server/server/speech/providers/local/sherpa/assets',{recursive:true}); fs.copyFileSync('src/server/speech/providers/local/sherpa/assets/silero_vad.onnx','dist/server/server/speech/providers/local/sherpa/assets/silero_vad.onnx'); fs.cpSync('src/terminal/shell-integration','dist/server/terminal/shell-integration',{recursive:true}); fs.cpSync('src/terminal/shell-integration','dist/src/terminal/shell-integration',{recursive:true}); fs.copyFileSync('src/terminal/terminal-ts-loader.mjs','dist/server/terminal/terminal-ts-loader.mjs'); fs.rmSync('dist/server/skills',{recursive:true,force:true}); fs.cpSync('../../skills','dist/server/skills',{recursive:true}); fs.rmSync('dist/server/builtin-plugins',{recursive:true,force:true}); fs.cpSync('../../plugins','dist/server/builtin-plugins',{recursive:true,filter:(source)=>!source.split(require('node:path').sep).some((segment)=>segment==='node_modules'||segment==='test')&&!/\.(test|spec)\.[cm]?[jt]sx?$/.test(source)&&!source.endsWith('.tsbuildinfo')});"
+
+
+> @getpaseo/server@0.11.2 build:scripts
+> tsc -p tsconfig.scripts.json --incremental false && node -e "const fs=require('node:fs'); fs.mkdirSync('dist/scripts',{recursive:true}); fs.copyFileSync('scripts/mcp-stdio-socket-bridge-cli.mjs','dist/scripts/mcp-stdio-socket-bridge-cli.mjs');"
+
+
+> @getpaseo/cli@0.11.2 build
+> tsc -p tsconfig.json --incremental false
+
+
+
+Working directory: repository root
+$ npm run typecheck:server
+
+> paseo@0.11.2 typecheck:server
+> npm run typecheck --workspace=@getpaseo/relay && npm run typecheck --workspace=@getpaseo/protocol && npm run typecheck --workspace=@getpaseo/client && npm run typecheck --workspace=@getpaseo/builtin-plugins && npm run typecheck --workspace=@getpaseo/server && npm run typecheck --workspace=@getpaseo/cli
+
+
+> @getpaseo/relay@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/protocol@0.11.2 pretypecheck
+> npm run generate:validators
+
+
+> @getpaseo/protocol@0.11.2 generate:validators
+> node scripts/generate-validation-aot.mjs
+
+generated src/generated/validation/ws-outbound.aot.ts from codegen/ws-outbound.compile.ts (WSOutboundMessageSchema)
+
+> @getpaseo/protocol@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/client@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/builtin-plugins@0.11.2 typecheck
+> tsgo -p tsconfig.json --noEmit
+
+
+> @getpaseo/server@0.11.2 typecheck
+> tsgo -p tsconfig.server.typecheck.json --noEmit
+
+
+> @getpaseo/cli@0.11.2 typecheck
+> tsgo --noEmit
+
+
+
+Working directory: repository root
+$ npm run typecheck --workspace=@getpaseo/app
+
+> @getpaseo/app@0.11.2 typecheck
+> tsgo --noEmit
+
+
+
+Working directory: repository root
+$ npm run lint
+
+> paseo@0.11.2 lint
+> oxlint
+
+Found 0 warnings and 0 errors.
+Finished in 1.7s on 4666 files with 177 rules using 8 threads.
+
+
+Actual installed protocol 0.11.1 compared with the built protocol:
+{"oldVersion":"0.11.1","oldClientParsesNewStatus":true,"newClientParsesOldStatus":true,"missingBaseFeatureRemainsUnsupported":true}
+
+Required pre-commit checks (full npm run typecheck included):
+╭───────────────────────────────────╮
+│ lefthook v2.1.6  hook: pre-commit │
+╰───────────────────────────────────╯
+┃  lint ❯ 
+
+
+> paseo@0.11.2 lint
+> oxlint packages/app/e2e/browser/changes-pane.spec.ts packages/app/src/git/checkout-status-cache.ts packages/app/src/git/diff-pane.tsx packages/app/src/git/workspace-base-branch-picker.tsx packages/app/src/i18n/resources/ar.ts packages/app/src/i18n/resources/en.ts packages/app/src/i18n/resources/es.ts packages/app/src/i18n/resources/fr.ts packages/app/src/i18n/resources/ja.ts packages/app/src/i18n/resources/ko.ts packages/app/src/i18n/resources/pt-BR.ts packages/app/src/i18n/resources/ru.ts packages/app/src/i18n/resources/zh-CN.ts packages/client/src/daemon-client.ts packages/client/src/index.test.ts packages/client/src/index.ts packages/protocol/src/messages.ts packages/protocol/src/messages.wire-compat.test.ts packages/server/src/server/authorization/operation-permissions.ts packages/server/src/server/checkout-diff-manager.ts packages/server/src/server/checkout/status-projection.ts packages/server/src/server/git-metadata-event-rules.test.ts packages/server/src/server/git-metadata-event-rules.ts packages/server/src/server/session.ts packages/server/src/server/session/checkout/checkout-session.ts packages/server/src/server/session/workspace-base-branch/service.ts packages/server/src/server/session/workspace-provisioning/workspace-provisioning-service.ts packages/server/src/server/websocket-server.ts packages/server/src/server/workspace-archive-record-scoped.e2e.test.ts packages/server/src/server/workspace-git-service.ts packages/server/src/server/workspace-registry-model.ts packages/server/src/server/workspace-registry.ts packages/server/src/utils/checkout-git.test.ts packages/server/src/utils/checkout-git.ts packages/server/src/utils/worktree-metadata.ts
+
+Found 0 warnings and 0 errors.
+Finished in 417ms on 35 files with 177 rules using 8 threads.
+
+┃  format ❯ 
+
+
+> paseo@0.11.2 format:check:files
+> oxfmt --check docs/data-model.md packages/app/e2e/browser/changes-pane.spec.ts packages/app/src/git/checkout-status-cache.ts packages/app/src/git/diff-pane.tsx packages/app/src/git/workspace-base-branch-picker.tsx packages/app/src/i18n/resources/ar.ts packages/app/src/i18n/resources/en.ts packages/app/src/i18n/resources/es.ts packages/app/src/i18n/resources/fr.ts packages/app/src/i18n/resources/ja.ts packages/app/src/i18n/resources/ko.ts packages/app/src/i18n/resources/pt-BR.ts packages/app/src/i18n/resources/ru.ts packages/app/src/i18n/resources/zh-CN.ts packages/client/src/daemon-client.ts packages/client/src/index.test.ts packages/client/src/index.ts packages/protocol/src/messages.ts packages/protocol/src/messages.wire-compat.test.ts packages/server/src/server/authorization/operation-permissions.ts packages/server/src/server/checkout-diff-manager.ts packages/server/src/server/checkout/status-projection.ts packages/server/src/server/git-metadata-event-rules.test.ts packages/server/src/server/git-metadata-event-rules.ts packages/server/src/server/session.ts packages/server/src/server/session/checkout/checkout-session.ts packages/server/src/server/session/workspace-base-branch/service.ts packages/server/src/server/session/workspace-provisioning/workspace-provisioning-service.ts packages/server/src/server/websocket-server.ts packages/server/src/server/workspace-archive-record-scoped.e2e.test.ts packages/server/src/server/workspace-git-service.ts packages/server/src/server/workspace-registry-model.ts packages/server/src/server/workspace-registry.ts packages/server/src/utils/checkout-git.test.ts packages/server/src/utils/checkout-git.ts packages/server/src/utils/worktree-metadata.ts
+
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 559ms on 36 files using 8 threads.
+
+┃  typecheck ❯ 
+
+
+> paseo@0.11.2 typecheck
+> npm run typecheck --workspaces --if-present
+
+
+> @getpaseo/builtin-plugins@0.11.2 typecheck
+> tsgo -p tsconfig.json --noEmit
+
+
+> @getpaseo/expo-two-way-audio@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/highlight@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/plugin@0.11.2 typecheck
+> tsgo --noEmit && tsgo -p tsconfig.examples.json --noEmit
+
+
+> @getpaseo/protocol@0.11.2 pretypecheck
+> npm run generate:validators
+
+
+> @getpaseo/protocol@0.11.2 generate:validators
+> node scripts/generate-validation-aot.mjs
+
+generated src/generated/validation/ws-outbound.aot.ts from codegen/ws-outbound.compile.ts (WSOutboundMessageSchema)
+
+> @getpaseo/protocol@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/client@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/server@0.11.2 typecheck
+> tsgo -p tsconfig.server.typecheck.json --noEmit
+
+
+> @getpaseo/app@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/relay@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/website@0.11.2 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/desktop@0.11.2 typecheck
+> tsgo --noEmit -p tsconfig.json
+
+
+> @getpaseo/cli@0.11.2 typecheck
+> tsgo --noEmit
+
+
+                                      
+  ────────────────────────────────────
+summary: (done in 22.98 seconds)      
+✓ lint (0.58 seconds)
+✓ format (0.78 seconds)
+✓ typecheck (22.97 seconds)
+[feat/workspace-base-branch d90cbb0] feat: allow changing the workspace base branch
+ 36 files changed, 967 insertions(+), 27 deletions(-)
+ create mode 100644 packages/app/src/git/workspace-base-branch-picker.tsx
+ create mode 100644 packages/server/src/server/session/workspace-base-branch/service.ts

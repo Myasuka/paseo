@@ -1,0 +1,28 @@
+{
+  "testedAt": "2026-10-14T09:44:44.450820+00:00",
+  "sourceBase": "ada7ba43f022a6b0036140ab26a209f1eefdbd40",
+  "sourceVersion": "0.11.2",
+  "tests": {
+    "checkoutGit": 174,
+    "daemonAndMetadata": 37,
+    "workspaceGitService": 31,
+    "clientSdk": 20,
+    "protocolWire": 15,
+    "locales": 39,
+    "browser": 3
+  },
+  "platforms": {
+    "Linux daemon": "tested with real temporary Git repositories and isolated daemons",
+    "Web Chromium desktop": "tested, recorded",
+    "iOS": "not tested",
+    "Android": "not tested",
+    "Electron Linux/macOS/Windows": "not tested",
+    "macOS/Windows daemon": "not tested"
+  },
+  "compatibility": "actual installed 0.11.1 schema plus missing-capability UI simulation",
+  "limits": [
+    "Existing open pull requests are not retargeted. New pull requests use the selected base branch name.",
+    "Existing restrictions on merging into a non-origin remote base without a recorded local merge target remain.",
+    "The default-base fallback is unchanged until a base is selected."
+  ]
+}
