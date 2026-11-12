@@ -1,0 +1,126 @@
+name: Custom macOS Client
+
+on:
+  push:
+    branches:
+      - custom/mac-client
+  workflow_dispatch:
+
+concurrency:
+  group: custom-macos-client-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+env:
+  ONNXRUNTIME_NODE_INSTALL: skip
+
+jobs:
+  macos-arm64:
+    name: Build macOS arm64 (.dmg & .zip)
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: node scripts/npm-retry.mjs ci
+
+      - name: Build and smoke-test macOS arm64 desktop client
+        shell: bash
+        env:
+          EP_GH_IGNORE_TIME: "true"
+          PASEO_DESKTOP_SMOKE: "1"
+          PASEO_DESKTOP_SMOKE_ARTIFACT_DIR: ${{ runner.temp }}/desktop-smoke
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          set -euo pipefail
+          npm run build:desktop -- \
+            --publish never \
+            --mac \
+            --arm64 \
+            -c.mac.identity=- \
+            -c.mac.hardenedRuntime=false \
+            -c.mac.notarize=false
+          echo "=== Built release artifacts ==="
+          ls -lh packages/desktop/release/
+          codesign -dv --verbose=4 packages/desktop/release/mac-arm64/Paseo.app 2>&1 || true
+          (
+            cd packages/desktop/release
+            shasum -a 256 ./*.dmg ./*.zip | tee SHA256SUMS.txt
+          )
+
+      - name: Upload packaged smoke diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-smoke-macos-arm64
+          path: ${{ runner.temp }}/desktop-smoke
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload macOS arm64 installers to workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Paseo-macos-arm64
+          path: |
+            packages/desktop/release/*.dmg
+            packages/desktop/release/*.zip
+            packages/desktop/release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub Release on fork
+        if: github.repository == 'Myasuka/paseo'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          RELEASE_TAG="custom-macos-client"
+          NOTES_FILE="$RUNNER_TEMP/release-notes.md"
+          cat > "$NOTES_FILE" <<EOF
+          ## Paseo Custom macOS Client (\`arm64\` Apple Silicon)
+
+          Built from commit \`${GITHUB_SHA}\` on branch \`${GITHUB_REF_NAME}\` and verified via packaged Electron + daemon + PTY smoke test on macOS \`arm64\`.
+
+          ### Included Customizations
+          - **Markdown Preview Find (\`Cmd+F\`)**: In-pane search bar with CSS Custom Highlight API highlighting, match navigation (\`Enter\` / \`Shift+Enter\`), and auto-scroll.
+          - **Changes Diff Find (\`Cmd+F\`)**: Full-model literal case-insensitive search across all diff hunks (including offscreen rows) with Canvas box highlights and vertical/horizontal auto-scroll.
+          - **macOS Top Tab Arrow Shortcuts**: Switch workspace tabs with \`Cmd+Option+Left/Right\` (\`⌥⌘←\` / \`⌥⌘→\`) globally, or \`Cmd+Left/Right\` (\`⌘←\` / \`⌘→\`) when focus is outside text inputs, terminals, and embedded browser views.
+
+          ### First Launch on macOS (Ad-hoc Signed)
+          Because this build uses ad-hoc code signing without Apple paid notarization, remove the Gatekeeper quarantine attribute once after installing \`Paseo.app\` into \`/Applications\`:
+
+          \`\`\`bash
+          xattr -cr /Applications/Paseo.app
+          open -a /Applications/Paseo.app
+          \`\`\`
+          EOF
+
+          if gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" \
+              --repo "${{ github.repository }}" \
+              --title "Paseo Custom macOS Client (arm64)" \
+              --notes-file "$NOTES_FILE"
+          else
+            gh release create "$RELEASE_TAG" \
+              --repo "${{ github.repository }}" \
+              --target "$GITHUB_SHA" \
+              --title "Paseo Custom macOS Client (arm64)" \
+              --notes-file "$NOTES_FILE"
+          fi
+
+          gh release upload "$RELEASE_TAG" \
+            packages/desktop/release/*.dmg \
+            packages/desktop/release/*.zip \
+            packages/desktop/release/SHA256SUMS.txt \
+            --repo "${{ github.repository }}" \
+            --clobber
