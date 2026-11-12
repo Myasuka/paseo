@@ -5,6 +5,16 @@ on:
     branches:
       - custom/mac-client
   workflow_dispatch:
+    inputs:
+      runner:
+        description: "GitHub-hosted macOS runner label"
+        required: false
+        default: "macos-26-intel"
+        type: choice
+        options:
+          - macos-26-intel
+          - macos-15-intel
+          - macos-latest
 
 concurrency:
   group: custom-macos-client-${{ github.ref }}
@@ -19,7 +29,7 @@ env:
 jobs:
   macos-arm64:
     name: Build macOS arm64 (.dmg & .zip)
-    runs-on: macos-latest
+    runs-on: ${{ inputs.runner || 'macos-26-intel' }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -33,25 +43,120 @@ jobs:
       - name: Install dependencies
         run: node scripts/npm-retry.mjs ci
 
-      - name: Build and smoke-test macOS arm64 desktop client
+      - name: Build web renderer, server, and desktop main
+        shell: bash
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+        run: |
+          set -euo pipefail
+          npm run build:app-deps:clean
+          (
+            cd packages/app
+            npx cross-env PASEO_WEB_PLATFORM=electron npx expo export --platform web
+          )
+          npm run build:server:clean
+          npm --prefix packages/desktop run build:main
+
+      - name: Hydrate darwin-arm64 runtime prebuilds when cross-packaging on x64
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$(uname -m)" == "arm64" ]]; then
+            echo "Host is already arm64; darwin-arm64 optionalDependencies were installed by npm ci."
+            exit 0
+          fi
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const crypto = require("node:crypto");
+          const { execFileSync } = require("node:child_process");
+
+          const lock = JSON.parse(fs.readFileSync("package-lock.json", "utf8"));
+          const targets = [
+            "node_modules/sherpa-onnx-darwin-arm64",
+            "node_modules/@msgpackr-extract/msgpackr-extract-darwin-arm64",
+            "node_modules/@esbuild/darwin-arm64",
+            "packages/server/node_modules/@esbuild/darwin-arm64",
+          ];
+          const tmpDir = fs.mkdtempSync(path.join(process.env.RUNNER_TEMP || "/tmp", "arm64-prebuilds-"));
+
+          for (const relTarget of targets) {
+            const meta = lock.packages[relTarget];
+            if (!meta?.resolved || !meta?.integrity) {
+              throw new Error(`Missing lockfile metadata for ${relTarget}`);
+            }
+            const tgzPath = path.join(tmpDir, `${relTarget.replace(/[/@]/g, "_")}.tgz`);
+            execFileSync("curl", ["-fsSL", "--retry", "3", "-o", tgzPath, meta.resolved], { stdio: "inherit" });
+
+            const [algo, expectedBase64] = meta.integrity.split("-", 2);
+            const actualBase64 = crypto.createHash(algo).update(fs.readFileSync(tgzPath)).digest("base64");
+            if (actualBase64 !== expectedBase64) {
+              throw new Error(`Integrity mismatch for ${relTarget}: expected ${expectedBase64}, got ${actualBase64}`);
+            }
+
+            fs.rmSync(relTarget, { recursive: true, force: true });
+            fs.mkdirSync(relTarget, { recursive: true });
+            execFileSync("tar", ["-xzf", tgzPath, "--strip-components=1", "-C", relTarget], { stdio: "inherit" });
+            console.log(`Hydrated ${relTarget}@${meta.version}`);
+          }
+
+          for (const x64Dir of [
+            "node_modules/sherpa-onnx-darwin-x64",
+            "node_modules/@msgpackr-extract/msgpackr-extract-darwin-x64",
+          ]) {
+            fs.rmSync(x64Dir, { recursive: true, force: true });
+          }
+          NODE
+
+      - name: Package, ad-hoc sign, and verify macOS arm64 (.dmg & .zip)
         shell: bash
         env:
           EP_GH_IGNORE_TIME: "true"
-          PASEO_DESKTOP_SMOKE: "1"
           PASEO_DESKTOP_SMOKE_ARTIFACT_DIR: ${{ runner.temp }}/desktop-smoke
-          NODE_OPTIONS: --max-old-space-size=4096
         run: |
           set -euo pipefail
-          npm run build:desktop -- \
-            --publish never \
-            --mac \
-            --arm64 \
-            -c.mac.identity=- \
-            -c.mac.hardenedRuntime=false \
-            -c.mac.notarize=false
+          if [[ "$(uname -m)" == "arm64" ]]; then
+            export PASEO_DESKTOP_SMOKE="1"
+          else
+            export PASEO_DESKTOP_SMOKE="0"
+          fi
+          (
+            cd packages/desktop
+            npx electron-builder \
+              --config electron-builder.yml \
+              --publish never \
+              --mac \
+              --arm64 \
+              -c.mac.identity=- \
+              -c.mac.hardenedRuntime=false \
+              -c.mac.notarize=false
+          )
+
+          APP_BUNDLE="packages/desktop/release/mac-arm64/Paseo.app"
+          echo "=== Verify main executable architecture ==="
+          MAIN_INFO="$(file "$APP_BUNDLE/Contents/MacOS/Paseo")"
+          echo "$MAIN_INFO"
+          [[ "$MAIN_INFO" == *"Mach-O 64-bit executable arm64"* ]]
+
+          echo "=== Verify unpacked Mach-O native addons are arm64 ==="
+          while IFS= read -r -d '' addon; do
+            ADDON_INFO="$(file "$addon")"
+            echo "$ADDON_INFO"
+            if [[ "$ADDON_INFO" == *"Mach-O"* && "$ADDON_INFO" != *"arm64"* ]]; then
+              echo "ERROR: non-arm64 Mach-O addon found: $addon" >&2
+              exit 1
+            fi
+          done < <(find "$APP_BUNDLE" -name "*.node" -print0)
+
+          echo "=== Verify bundled resources & Apple code signature ==="
+          test -f "$APP_BUNDLE/Contents/Resources/app-dist/index.html"
+          test -d "$APP_BUNDLE/Contents/Resources/builtin-plugins"
+          test -x "$APP_BUNDLE/Contents/Resources/bin/paseo"
+          codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
+          codesign -dv --verbose=4 "$APP_BUNDLE" 2>&1 || true
+
           echo "=== Built release artifacts ==="
           ls -lh packages/desktop/release/
-          codesign -dv --verbose=4 packages/desktop/release/mac-arm64/Paseo.app 2>&1 || true
           (
             cd packages/desktop/release
             shasum -a 256 ./*.dmg ./*.zip | tee SHA256SUMS.txt
@@ -89,7 +194,7 @@ jobs:
           cat > "$NOTES_FILE" <<EOF
           ## Paseo Custom macOS Client (\`arm64\` Apple Silicon)
 
-          Built from commit \`${GITHUB_SHA}\` on branch \`${GITHUB_REF_NAME}\` and verified via packaged Electron + daemon + PTY smoke test on macOS \`arm64\`.
+          Built from commit \`${GITHUB_SHA}\` on branch \`${GITHUB_REF_NAME}\` with verified \`arm64\` Mach-O binaries and \`codesign --verify --deep --strict\` ad-hoc signature.
 
           ### Included Customizations
           - **Markdown Preview Find (\`Cmd+F\`)**: In-pane search bar with CSS Custom Highlight API highlighting, match navigation (\`Enter\` / \`Shift+Enter\`), and auto-scroll.
