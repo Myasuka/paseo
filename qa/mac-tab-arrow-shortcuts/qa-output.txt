@@ -1,0 +1,585 @@
+# QA Raw Output — macOS Workspace Tab Arrow Shortcuts (feat/mac-tab-arrow-shortcuts)
+
+## Commit Summary
+commit a0ec46326c4b9f8dece3df819b41664759ea69b7
+Date: 2026-11-12 17:21:35 +0000
+
+feat(app): add macOS arrow-key workspace tab navigation shortcuts
+
+
+ .../e2e/browser/mac-tab-arrow-shortcuts.spec.ts    | 76 ++++++++++++++++++++++
+ .../internal/sources/electron-browser.test.ts      | 17 +++++
+ .../keyboard/internal/sources/electron-browser.ts  |  5 +-
+ .../app/src/keyboard/keyboard-shortcuts.test.ts    | 52 +++++++++++++++
+ packages/app/src/keyboard/keyboard-shortcuts.ts    | 38 +++++++++++
+ 5 files changed, 187 insertions(+), 1 deletion(-)
+
+## Keyboard Routing & Electron Browser Guard Unit Tests (Vitest)
+Created At: 2026-11-12T17:16:12Z
+Completed At: 2026-11-12T17:16:15Z
+Created At: 2026-11-12T17:16:12Z
+Completed At: 2026-11-12T17:16:15Z
+Command exited with code 0.
+
+Command output:
+
+ RUN  v4.1.7 <repo>/packages/app
+
+
+ ❯ |unit| src/keyboard/keyboard-shortcuts.test.ts [queued]
+
+ Test Files 0 passed (4)
+      Tests 0 passed (0)
+   Start at 17:16:14
+   Duration 101ms
+
+ ❯ |unit| src/keyboard/keyboard-shortcuts.test.ts [queued]
+ ❯ |unit| src/keyboard/route-shortcut.test.ts 0/67
+
+ Test Files 0 passed (4)
+      Tests 0 passed (67)
+   Start at 17:16:14
+   Duration 321ms
+ ✓ |unit| src/keyboard/route-shortcut.test.ts (67 tests) 14ms
+ ✓ |unit| src/keyboard/keyboard-shortcuts.test.ts (169 tests) 56ms
+
+ ❯ |unit| src/keyboard/internal/sources/electron-browser.test.ts [queued]
+
+ Test Files 2 passed (4)
+      Tests 236 passed (236)
+   Start at 17:16:14
+   Duration 422ms
+ ✓ |unit| src/keyboard/internal/sources/electron-browser.test.ts (16 tests) 24ms
+ ✓ |unit| src/command-center/workspace-shortcuts.test.ts (1 test) 4ms
+
+ Test Files  4 passed (4)
+      Tests  253 passed (253)
+   Start at  17:16:14
+   Duration  558ms (transform 374ms, setup 116ms, import 373ms, tests 99ms, environment 2ms)
+
+## Real Daemon + Browser E2E Tests (Playwright Chromium)
+The following is a <SYSTEM_MESSAGE> not actually sent by the user. It is provided by the system as important information to pay attention to.
+
+<SYSTEM_MESSAGE>
+[Message] timestamp=2026-11-12T17:21:12Z sender=3c4bba4d-f0b5-44d9-9d9f-a7c163c9c4f7/task-517 priority=MESSAGE_PRIORITY_HIGH content=Task id "3c4bba4d-f0b5-44d9-9d9f-a7c163c9c4f7/task-517" finished with result:
+Command exited with code 0.
+
+Command output:
+
+> paseo@0.16.0-beta.2 format:files
+> oxfmt packages/app/e2e/browser/mac-tab-arrow-shortcuts.spec.ts
+
+Finished in 27ms on 1 files using 8 threads.
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:22947
+[metro] Logs for your project will appear below.
+[metro] Web Bundled 3651ms packages/app/index.ts (5885 modules)
+[e2e] Metro warmed on port 22947
+
+Running 1 test using 1 worker
+
+     1 …+ArrowLeft/Right outside inputs while preserving editable caret behavior
+[e2e] Worker 0 daemon started on port 28213, home: /tmp/paseo-e2e-worker-0-wnJvaN
+[metro] Web Bundled 311ms packages/app/index.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/stores/navigation-active-workspace-store/index.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/plugins/client-state/source.ts -> src/plugins/client-state/connected-hosts.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/plugins/client-state/source.ts -> src/plugins/client-state/terminals.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/react-native/ui.ts -> src/plugins/react-native/markdown.tsx -> src/components/markdown/renderer.tsx -> src/agent-commands/index.tsx -> src/agent-commands/use-query.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web Bundled 64ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+  ✓  1 …ft/Right outside inputs while preserving editable caret behavior (11.1s)[e2e] Worker 0 daemon stopped
+[e2e] Metro stopped
+
+  1 passed (32.8s)
+
+Log: file://<artifacts>/.system_generated/tasks/task-517.log
+</SYSTEM_MESSAGE>
+
+## Pre-commit Format, Lint & Workspace Typecheck
+The following is a <SYSTEM_MESSAGE> not actually sent by the user. It is provided by the system as important information to pay attention to.
+
+<SYSTEM_MESSAGE>
+[Message] timestamp=2026-11-12T17:22:00Z sender=3c4bba4d-f0b5-44d9-9d9f-a7c163c9c4f7/task-524 priority=MESSAGE_PRIORITY_HIGH content=Task id "3c4bba4d-f0b5-44d9-9d9f-a7c163c9c4f7/task-524" finished with result:
+The tool's output was truncated due to being too long. You can find the full output in a file at file://<artifacts>/.system_generated/steps/524/output.txt.
+
+Here is a preview with the middle of the output truncated:
+Command exited with code 0.
+
+Command output:
+total 280
+drwx------ 2 <user> <user>   4096 Nov 12 17:21 .
+drwx------ 3 <user> <user>   4096 Nov 12 17:21 ..
+-rw------- 1 <user> <user>  53658 Nov 12 17:21 mac-tab-arrow-left-to-diff.png
+-rw------- 1 <user> <user>  53365 Nov 12 17:21 mac-tab-arrow-left-to-markdown.png
+-rw------- 1 <user> <user> 161211 Nov 12 17:21 video.webm
+## feat/mac-tab-arrow-shortcuts
+ M packages/app/src/keyboard/internal/sources/electron-browser.test.ts
+ M packages/app/src/keyboard/internal/sources/electron-browser.ts
+ M packages/app/src/keyboard/keyboard-shortcuts.test.ts
+ M packages/app/src/keyboard/keyboard-shortcuts.ts
+?? packages/app/e2e/browser/mac-tab-arrow-shortcuts.spec.ts
+╭──────────────────────────────────────╮
+│ 🥊 lefthook v2.1.6  hook: pre-commit │
+╰──────────────────────────────────────╯
+
+
+
+
+
+
+
+┃  format ❯ 
+
+
+
+
+
+> paseo@0.16.0-beta.2 format:check:files
+
+> oxfmt --check packages/app/e2e/browser/mac-tab-arrow-shortcuts.spec.ts packages/app/src/keyboard/internal/sources/electron-browser.test.ts packages/app/src/keyboard/internal/sources/electron-browser.ts packages/app/src/keyboard/keyboard-shortcuts.test.ts packages/app/src/keyboard/keyboard-shortcuts.ts
+
+
+
+Checking formatting...
+
+
+
+All matched files use the correct format.
+
+Finished in 43ms on 5 files using 8 threads.
+
+
+
+
+
+
+
+┃  lint ❯ 
+
+
+
+
+
+> paseo@0.16.0-beta.2 lint
+
+> oxlint packages/app/e2e/browser/mac-tab-arrow-shortcuts.spec.ts packages/app/src/keyboard/internal/sources/electron-browser.test.ts packages/app/src/keyboard/internal/sources/electron-browser.ts packages/app/src/keyboard/keyboard-shortcuts.test.ts packages/app/src/keyboard/keyboard-shortcuts.ts
+
+
+
+Found 0 warnings and 0 errors.
+
+Finished in 390ms on 5 files with 177 rules using 8 threads.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+⠏ wait
+<truncated 565 of 10449 bytes from the middle of the output>
+k
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+┃  typecheck ❯ 
+
+
+
+
+
+> paseo@0.16.0-beta.2 typecheck
+
+> npm run typecheck --workspaces --if-present
+
+
+
+
+
+> @getpaseo/builtin-plugins@0.16.0-beta.2 typecheck
+
+> tsgo -p tsconfig.json --noEmit
+
+
+
+
+
+> @getpaseo/expo-two-way-audio@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+> @getpaseo/highlight@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+> @getpaseo/plugin@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit && npm run typecheck:examples
+
+
+
+
+
+> @getpaseo/plugin@0.16.0-beta.2 typecheck:examples
+
+> npm --prefix ../../plugin-examples/markdown-panel install --ignore-scripts --no-audit --no-fund && tsgo -p tsconfig.examples.json --noEmit
+
+
+
+
+
+up to date in 218ms
+
+
+
+> @getpaseo/protocol@0.16.0-beta.2 pretypecheck
+
+> npm run generate:validators
+
+
+
+
+
+> @getpaseo/protocol@0.16.0-beta.2 generate:validators
+
+> node scripts/generate-validation-aot.mjs
+
+
+
+generated src/generated/validation/ws-outbound.aot.ts: envelope + 250 session message validators
+
+
+
+> @getpaseo/protocol@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+> @getpaseo/client@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+> @getpaseo/server@0.16.0-beta.2 typecheck
+
+> tsgo -p tsconfig.server.typecheck.json --noEmit
+
+
+
+
+
+> @getpaseo/app@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+> @getpaseo/relay@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+> @getpaseo/website@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+> @getpaseo/desktop@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit -p tsconfig.json
+
+
+
+
+
+> @getpaseo/cli@0.16.0-beta.2 typecheck
+
+> tsgo --noEmit
+
+
+
+
+
+
+                                      
+  ────────────────────────────────────
+summary: (done in 25.60 seconds)      
+✔️ format (0.26 seconds)
+✔️ lint (0.55 seconds)
+✔️ typecheck (25.58 seconds)
+[feat/mac-tab-arrow-shortcuts a0ec46326] feat(app): add macOS arrow-key workspace tab navigation shortcuts
+ 5 files changed, 187 insertions(+), 1 deletion(-)
+ create mode 100644 packages/app/e2e/browser/mac-tab-arrow-shortcuts.spec.ts
+a0ec46326 feat(app): add macOS arrow-key workspace tab navigation shortcuts
+a0ec46326c4b9f8dece3df819b41664759ea69b7
+
+Log: file://<artifacts>/.system_generated/tasks/task-524.log
+</SYSTEM_MESSAGE>

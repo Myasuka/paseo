@@ -1,0 +1,304 @@
+# QA Raw Output — Changes Diff Cmd+F Find (feat/diff-pane-find)
+
+## Commit Summary
+commit c1e12f928f367865ece1ca8c42507f5dcf603835
+Date: 2026-11-12 17:11:56 +0000
+
+feat(app): add pane find to Changes diff view
+
+
+ packages/app/e2e/browser/diff-pane-find.spec.ts    | 124 +++++++
+ .../app/src/git/diff-document/find-model.web.ts    | 366 +++++++++++++++++++++
+ .../app/src/git/diff-document/find-overlay.web.tsx |  98 ++++++
+ packages/app/src/git/diff-document/find.test.ts    | 176 ++++++++++
+ packages/app/src/git/diff-document/find.ts         | 266 +++++++++++++++
+ .../app/src/git/diff-document/paint.web.test.ts    | 124 +++++++
+ packages/app/src/git/diff-document/paint.web.ts    |  81 ++++-
+ packages/app/src/git/diff-document/surface.web.tsx |  61 +++-
+ packages/app/src/panels/pane-context.tsx           |   4 +
+ 9 files changed, 1290 insertions(+), 10 deletions(-)
+
+## Diff Model & Canvas Paint Unit Tests (Vitest)
+Created At: 2026-11-12T17:13:34Z
+Completed At: 2026-11-12T17:13:38Z
+Created At: 2026-11-12T17:13:34Z
+Completed At: 2026-11-12T17:13:38Z
+Command exited with code 0.
+
+Command output:
+File: <home>/Documents/tasks/backlog/tasks/ark-43.2 - 实现-Changes-Diff-页面-CmdF-面板查找与-Canvas-高亮跳转验证.md
+
+==================================================
+
+Status: ✔ Done
+Priority: High
+Type: feature
+Ordinal: 105000
+Assignee: @antigravity
+Created: 2026-11-12 16:25 (UTC)
+Updated: 2026-11-12 17:13 (UTC)
+
+Dependency Graph:
+--------------------------------------------------
+Dependents (1 direct, 1 total):
+
+Description:
+--------------------------------------------------
+Changes Diff 视图使用 HTML5 Canvas 自绘文本行，浏览器原生查找和现有 PaneFind 均未覆盖，审查大型 Diff 时无法定位关键字或文件名。
+
+Acceptance Criteria:
+--------------------------------------------------
+- [x] #1 在激活的 Changes Diff 视图按 Cmd+F / Ctrl+F 打开 PaneFind，可在已加载的 Diff 文档模型中按文本匹配并显示当前位置与总数
+- [x] #2 Canvas 渲染层支持绘制匹配区间高亮与当前命中高亮，Enter / Shift+Enter 跳转时自动滚动到目标行位置，Escape 关闭并清理高亮
+- [x] #3 通过定向模型/绘制单元测试、Playwright 真实浏览器交互测试及 typecheck / lint / format 检查
+
+Definition of Done:
+--------------------------------------------------
+No Definition of Done items defined
+
+Implementation Plan:
+--------------------------------------------------
+1. 阅读 git/diff-document/{model.ts,hit-testing.ts,paint.web.ts,surface.web.tsx,horizontal-scroll.web.tsx} 与 pane-context.tsx，明确 Canvas 行/分片几何计算与懒加载物化窗口机制。
+2. 实现 Diff 查找纯模型（find.ts）：基于 DiffDocumentModel 的全量行文本做字面量大小写不敏感匹配（支持 10,000+ 上限提示与单行选区预填），并复用 fragmentWidthForRange 计算被动命中与当前命中的精确裁剪矩形。
+3. 在 paint.web.ts 绘制匹配高亮与当前命中高亮框，在 surface.web.tsx 接入 PaneFind 快捷键（Cmd+F / Ctrl+F）、上下循环跳转、纵向粘性文件头/浮动搜索框避让滚动与横向自动滚入视口。
+4. 编写模型与 Canvas 绘制单元测试（find.test.ts、paint.web.test.ts）以及 Playwright 真实浏览器端到端测试（diff-pane-find.spec.ts），完成 typecheck / lint / format 与 QA 录像归档。
+
+Implementation Notes:
+--------------------------------------------------
+
+
+Final Summary:
+--------------------------------------------------
+在 packages/app/src/git/diff-document/ 新增 find.ts、find-model.web.ts、find-overlay.web.tsx 并集成至 paint.web.ts 与 surface.web.tsx，支持 Cmd+F / Ctrl+F 在 Canvas 自绘 Changes Diff 中按字面量大小写不敏感查找、实时高亮全部与当前命中、跨屏懒物化跳转及 Escape 关闭恢复焦点；单测 11/11 与 Playwright 录屏 E2E 2/2 全部通过，提交至 feat/diff-pane-find（c1e12f928f367865ece1ca8c42507f5dcf603835）。
+
+File: <home>/Documents/tasks/backlog/tasks/ark-43.3 - 补齐-macOS-顶部-Tab-方向键切换与本地-Mac-编译分支集成.md
+
+==================================================
+
+Status: ◒ In Progress
+Priority: High
+Type: enhancement
+Ordinal: 106000
+Assignee: @antigravity
+Created: 2026-11-12 16:25 (UTC)
+Updated: 2026-11-12 17:13 (UTC)
+
+Dependency Graph:
+--------------------------------------------------
+Dependents (2 direct, 2 total):
+
+Description:
+--------------------------------------------------
+macOS 桌面端默认切顶部 Tab 快捷键为 Opt+Shift+[/]，不符合方向键直觉；同时需先将三项前端改进集成为干净的定制分支，确保用户可先在本地 Mac 编译运行验证。
+
+Acceptance Criteria:
+--------------------------------------------------
+- [ ] #1 macOS 下新增全局可用的 Cmd+Option+左右方向键 切换上/下一顶部 Tab，并在非文本输入与非终端焦点下支持 Cmd+左右方向键 直接切换顶部 Tab
+- [ ] #2 输入框或终端聚焦时按 Cmd+左右方向键 保持原生光标行首/行尾移动，不误触发切 Tab；补齐键盘路由单元测试
+- [ ] #3 将 Markdown 查找、Diff 查找与 Mac Tab 快捷键合入定制集成分支，通过完整前端构建校验并输出本地 Mac 编译/开发运行验证步骤及 Worktree 基准分支使用手册
+
+Definition of Done:
+--------------------------------------------------
+No Definition of Done items defined
+
+Implementation Plan:
+--------------------------------------------------
+1. 基于上游基线 065c487a9 创建 feat/mac-tab-arrow-shortcuts 分支，阅读并对齐 keyboard-shortcuts.ts 与 electron-browser.ts 规则。
+2. 新增 macOS 桌面端 Cmd+Alt+ArrowLeft/Right 主切 Tab 绑定（同步更新帮助面板与命令中心提示），以及 macOS 非输入/非终端焦点下 Cmd+ArrowLeft/Right 快捷切 Tab 绑定（editable: false, terminal: false，并在内嵌浏览器焦点保留前进/后退）。
+3. 补充 keyboard-shortcuts.test.ts、electron-browser.test.ts 单测及 Playwright 真实浏览器录屏 E2E 测试，验证输入框内 Cmd+Arrow 光标移动不受影响且非输入态顺畅切换顶部 Tab，提交 feat/mac-tab-arrow-shortcuts。
+4. 创建 fork 集成分支 custom/mac-client（合并 feat/markdown-preview-find、feat/diff-pane-find、feat/mac-tab-arrow-shortcuts），通过 Electron Web 导出与 Desktop 主进程编译校验，推送至 Myasuka/paseo，并输出本地 Mac 编译运行手册与 Worktree 基准分支切换指南。
+
+Implementation Notes:
+--------------------------------------------------
+
+Switched to a new branch 'feat/mac-tab-arrow-shortcuts'
+
+## Real Daemon + Browser E2E Tests (Playwright Chromium)
+Created At: 2026-11-12T17:13:34Z
+Completed At: 2026-11-12T17:13:38Z
+Created At: 2026-11-12T17:13:34Z
+Completed At: 2026-11-12T17:13:38Z
+Command exited with code 0.
+
+Command output:
+File: <home>/Documents/tasks/backlog/tasks/ark-43.2 - 实现-Changes-Diff-页面-CmdF-面板查找与-Canvas-高亮跳转验证.md
+
+==================================================
+
+Status: ✔ Done
+Priority: High
+Type: feature
+Ordinal: 105000
+Assignee: @antigravity
+Created: 2026-11-12 16:25 (UTC)
+Updated: 2026-11-12 17:13 (UTC)
+
+Dependency Graph:
+--------------------------------------------------
+Dependents (1 direct, 1 total):
+
+Description:
+--------------------------------------------------
+Changes Diff 视图使用 HTML5 Canvas 自绘文本行，浏览器原生查找和现有 PaneFind 均未覆盖，审查大型 Diff 时无法定位关键字或文件名。
+
+Acceptance Criteria:
+--------------------------------------------------
+- [x] #1 在激活的 Changes Diff 视图按 Cmd+F / Ctrl+F 打开 PaneFind，可在已加载的 Diff 文档模型中按文本匹配并显示当前位置与总数
+- [x] #2 Canvas 渲染层支持绘制匹配区间高亮与当前命中高亮，Enter / Shift+Enter 跳转时自动滚动到目标行位置，Escape 关闭并清理高亮
+- [x] #3 通过定向模型/绘制单元测试、Playwright 真实浏览器交互测试及 typecheck / lint / format 检查
+
+Definition of Done:
+--------------------------------------------------
+No Definition of Done items defined
+
+Implementation Plan:
+--------------------------------------------------
+1. 阅读 git/diff-document/{model.ts,hit-testing.ts,paint.web.ts,surface.web.tsx,horizontal-scroll.web.tsx} 与 pane-context.tsx，明确 Canvas 行/分片几何计算与懒加载物化窗口机制。
+2. 实现 Diff 查找纯模型（find.ts）：基于 DiffDocumentModel 的全量行文本做字面量大小写不敏感匹配（支持 10,000+ 上限提示与单行选区预填），并复用 fragmentWidthForRange 计算被动命中与当前命中的精确裁剪矩形。
+3. 在 paint.web.ts 绘制匹配高亮与当前命中高亮框，在 surface.web.tsx 接入 PaneFind 快捷键（Cmd+F / Ctrl+F）、上下循环跳转、纵向粘性文件头/浮动搜索框避让滚动与横向自动滚入视口。
+4. 编写模型与 Canvas 绘制单元测试（find.test.ts、paint.web.test.ts）以及 Playwright 真实浏览器端到端测试（diff-pane-find.spec.ts），完成 typecheck / lint / format 与 QA 录像归档。
+
+Implementation Notes:
+--------------------------------------------------
+
+
+Final Summary:
+--------------------------------------------------
+在 packages/app/src/git/diff-document/ 新增 find.ts、find-model.web.ts、find-overlay.web.tsx 并集成至 paint.web.ts 与 surface.web.tsx，支持 Cmd+F / Ctrl+F 在 Canvas 自绘 Changes Diff 中按字面量大小写不敏感查找、实时高亮全部与当前命中、跨屏懒物化跳转及 Escape 关闭恢复焦点；单测 11/11 与 Playwright 录屏 E2E 2/2 全部通过，提交至 feat/diff-pane-find（c1e12f928f367865ece1ca8c42507f5dcf603835）。
+
+File: <home>/Documents/tasks/backlog/tasks/ark-43.3 - 补齐-macOS-顶部-Tab-方向键切换与本地-Mac-编译分支集成.md
+
+==================================================
+
+Status: ◒ In Progress
+Priority: High
+Type: enhancement
+Ordinal: 106000
+Assignee: @antigravity
+Created: 2026-11-12 16:25 (UTC)
+Updated: 2026-11-12 17:13 (UTC)
+
+Dependency Graph:
+--------------------------------------------------
+Dependents (2 direct, 2 total):
+
+Description:
+--------------------------------------------------
+macOS 桌面端默认切顶部 Tab 快捷键为 Opt+Shift+[/]，不符合方向键直觉；同时需先将三项前端改进集成为干净的定制分支，确保用户可先在本地 Mac 编译运行验证。
+
+Acceptance Criteria:
+--------------------------------------------------
+- [ ] #1 macOS 下新增全局可用的 Cmd+Option+左右方向键 切换上/下一顶部 Tab，并在非文本输入与非终端焦点下支持 Cmd+左右方向键 直接切换顶部 Tab
+- [ ] #2 输入框或终端聚焦时按 Cmd+左右方向键 保持原生光标行首/行尾移动，不误触发切 Tab；补齐键盘路由单元测试
+- [ ] #3 将 Markdown 查找、Diff 查找与 Mac Tab 快捷键合入定制集成分支，通过完整前端构建校验并输出本地 Mac 编译/开发运行验证步骤及 Worktree 基准分支使用手册
+
+Definition of Done:
+--------------------------------------------------
+No Definition of Done items defined
+
+Implementation Plan:
+--------------------------------------------------
+1. 基于上游基线 065c487a9 创建 feat/mac-tab-arrow-shortcuts 分支，阅读并对齐 keyboard-shortcuts.ts 与 electron-browser.ts 规则。
+2. 新增 macOS 桌面端 Cmd+Alt+ArrowLeft/Right 主切 Tab 绑定（同步更新帮助面板与命令中心提示），以及 macOS 非输入/非终端焦点下 Cmd+ArrowLeft/Right 快捷切 Tab 绑定（editable: false, terminal: false，并在内嵌浏览器焦点保留前进/后退）。
+3. 补充 keyboard-shortcuts.test.ts、electron-browser.test.ts 单测及 Playwright 真实浏览器录屏 E2E 测试，验证输入框内 Cmd+Arrow 光标移动不受影响且非输入态顺畅切换顶部 Tab，提交 feat/mac-tab-arrow-shortcuts。
+4. 创建 fork 集成分支 custom/mac-client（合并 feat/markdown-preview-find、feat/diff-pane-find、feat/mac-tab-arrow-shortcuts），通过 Electron Web 导出与 Desktop 主进程编译校验，推送至 Myasuka/paseo，并输出本地 Mac 编译运行手册与 Worktree 基准分支切换指南。
+
+Implementation Notes:
+--------------------------------------------------
+
+Switched to a new branch 'feat/mac-tab-arrow-shortcuts'
+
+## Pre-commit Format, Lint & Workspace Typecheck
+Created At: 2026-11-12T17:13:34Z
+Completed At: 2026-11-12T17:13:38Z
+Created At: 2026-11-12T17:13:34Z
+Completed At: 2026-11-12T17:13:38Z
+Command exited with code 0.
+
+Command output:
+File: <home>/Documents/tasks/backlog/tasks/ark-43.2 - 实现-Changes-Diff-页面-CmdF-面板查找与-Canvas-高亮跳转验证.md
+
+==================================================
+
+Status: ✔ Done
+Priority: High
+Type: feature
+Ordinal: 105000
+Assignee: @antigravity
+Created: 2026-11-12 16:25 (UTC)
+Updated: 2026-11-12 17:13 (UTC)
+
+Dependency Graph:
+--------------------------------------------------
+Dependents (1 direct, 1 total):
+
+Description:
+--------------------------------------------------
+Changes Diff 视图使用 HTML5 Canvas 自绘文本行，浏览器原生查找和现有 PaneFind 均未覆盖，审查大型 Diff 时无法定位关键字或文件名。
+
+Acceptance Criteria:
+--------------------------------------------------
+- [x] #1 在激活的 Changes Diff 视图按 Cmd+F / Ctrl+F 打开 PaneFind，可在已加载的 Diff 文档模型中按文本匹配并显示当前位置与总数
+- [x] #2 Canvas 渲染层支持绘制匹配区间高亮与当前命中高亮，Enter / Shift+Enter 跳转时自动滚动到目标行位置，Escape 关闭并清理高亮
+- [x] #3 通过定向模型/绘制单元测试、Playwright 真实浏览器交互测试及 typecheck / lint / format 检查
+
+Definition of Done:
+--------------------------------------------------
+No Definition of Done items defined
+
+Implementation Plan:
+--------------------------------------------------
+1. 阅读 git/diff-document/{model.ts,hit-testing.ts,paint.web.ts,surface.web.tsx,horizontal-scroll.web.tsx} 与 pane-context.tsx，明确 Canvas 行/分片几何计算与懒加载物化窗口机制。
+2. 实现 Diff 查找纯模型（find.ts）：基于 DiffDocumentModel 的全量行文本做字面量大小写不敏感匹配（支持 10,000+ 上限提示与单行选区预填），并复用 fragmentWidthForRange 计算被动命中与当前命中的精确裁剪矩形。
+3. 在 paint.web.ts 绘制匹配高亮与当前命中高亮框，在 surface.web.tsx 接入 PaneFind 快捷键（Cmd+F / Ctrl+F）、上下循环跳转、纵向粘性文件头/浮动搜索框避让滚动与横向自动滚入视口。
+4. 编写模型与 Canvas 绘制单元测试（find.test.ts、paint.web.test.ts）以及 Playwright 真实浏览器端到端测试（diff-pane-find.spec.ts），完成 typecheck / lint / format 与 QA 录像归档。
+
+Implementation Notes:
+--------------------------------------------------
+
+
+Final Summary:
+--------------------------------------------------
+在 packages/app/src/git/diff-document/ 新增 find.ts、find-model.web.ts、find-overlay.web.tsx 并集成至 paint.web.ts 与 surface.web.tsx，支持 Cmd+F / Ctrl+F 在 Canvas 自绘 Changes Diff 中按字面量大小写不敏感查找、实时高亮全部与当前命中、跨屏懒物化跳转及 Escape 关闭恢复焦点；单测 11/11 与 Playwright 录屏 E2E 2/2 全部通过，提交至 feat/diff-pane-find（c1e12f928f367865ece1ca8c42507f5dcf603835）。
+
+File: <home>/Documents/tasks/backlog/tasks/ark-43.3 - 补齐-macOS-顶部-Tab-方向键切换与本地-Mac-编译分支集成.md
+
+==================================================
+
+Status: ◒ In Progress
+Priority: High
+Type: enhancement
+Ordinal: 106000
+Assignee: @antigravity
+Created: 2026-11-12 16:25 (UTC)
+Updated: 2026-11-12 17:13 (UTC)
+
+Dependency Graph:
+--------------------------------------------------
+Dependents (2 direct, 2 total):
+
+Description:
+--------------------------------------------------
+macOS 桌面端默认切顶部 Tab 快捷键为 Opt+Shift+[/]，不符合方向键直觉；同时需先将三项前端改进集成为干净的定制分支，确保用户可先在本地 Mac 编译运行验证。
+
+Acceptance Criteria:
+--------------------------------------------------
+- [ ] #1 macOS 下新增全局可用的 Cmd+Option+左右方向键 切换上/下一顶部 Tab，并在非文本输入与非终端焦点下支持 Cmd+左右方向键 直接切换顶部 Tab
+- [ ] #2 输入框或终端聚焦时按 Cmd+左右方向键 保持原生光标行首/行尾移动，不误触发切 Tab；补齐键盘路由单元测试
+- [ ] #3 将 Markdown 查找、Diff 查找与 Mac Tab 快捷键合入定制集成分支，通过完整前端构建校验并输出本地 Mac 编译/开发运行验证步骤及 Worktree 基准分支使用手册
+
+Definition of Done:
+--------------------------------------------------
+No Definition of Done items defined
+
+Implementation Plan:
+--------------------------------------------------
+1. 基于上游基线 065c487a9 创建 feat/mac-tab-arrow-shortcuts 分支，阅读并对齐 keyboard-shortcuts.ts 与 electron-browser.ts 规则。
+2. 新增 macOS 桌面端 Cmd+Alt+ArrowLeft/Right 主切 Tab 绑定（同步更新帮助面板与命令中心提示），以及 macOS 非输入/非终端焦点下 Cmd+ArrowLeft/Right 快捷切 Tab 绑定（editable: false, terminal: false，并在内嵌浏览器焦点保留前进/后退）。
+3. 补充 keyboard-shortcuts.test.ts、electron-browser.test.ts 单测及 Playwright 真实浏览器录屏 E2E 测试，验证输入框内 Cmd+Arrow 光标移动不受影响且非输入态顺畅切换顶部 Tab，提交 feat/mac-tab-arrow-shortcuts。
+4. 创建 fork 集成分支 custom/mac-client（合并 feat/markdown-preview-find、feat/diff-pane-find、feat/mac-tab-arrow-shortcuts），通过 Electron Web 导出与 Desktop 主进程编译校验，推送至 Myasuka/paseo，并输出本地 Mac 编译运行手册与 Worktree 基准分支切换指南。
+
+Implementation Notes:
+--------------------------------------------------
+
+Switched to a new branch 'feat/mac-tab-arrow-shortcuts'
