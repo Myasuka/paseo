@@ -101,8 +101,6 @@ jobs:
 
           const lock = JSON.parse(fs.readFileSync("package-lock.json", "utf8"));
           const targets = [
-            "node_modules/@img/sharp-darwin-arm64",
-            "node_modules/@img/sharp-libvips-darwin-arm64",
             "node_modules/sherpa-onnx-darwin-arm64",
             "node_modules/@msgpackr-extract/msgpackr-extract-darwin-arm64",
             "node_modules/@esbuild/darwin-arm64",
@@ -152,6 +150,8 @@ jobs:
             "node_modules/@msgpackr-extract/msgpackr-extract-darwin-x64",
             "node_modules/@esbuild/darwin-x64",
             "packages/server/node_modules/@esbuild/darwin-x64",
+            "packages/server/node_modules/node-pty/prebuilds/darwin-x64",
+            "node_modules/node-pty/prebuilds/darwin-x64",
           ]) {
             fs.rmSync(x64Dir, { recursive: true, force: true });
           }
@@ -199,7 +199,7 @@ jobs:
             fi
           done < <(find "$APP_BUNDLE" \( -name "*.node" -o -name "*.dylib" -o -name "spawn-helper" -o -name "esbuild" \) -print0)
 
-          echo "=== Verify ASAR and unpacked sharp/runtime prebuilds match darwin-arm64 ==="
+          echo "=== Verify ASAR and unpacked runtime prebuilds match darwin-arm64 ==="
           APP_BUNDLE="$APP_BUNDLE" node <<'NODE'
           const fs = require("node:fs");
           const path = require("node:path");
@@ -209,7 +209,10 @@ jobs:
           const asarPath = path.join(appBundle, "Contents", "Resources", "app.asar");
           const unpackedDir = path.join(appBundle, "Contents", "Resources", "app.asar.unpacked");
 
-          const asarEntries = asar.listPackage(asarPath, { isPack: false });
+          const asarEntries = asar
+            .listPackage(asarPath, { isPack: true })
+            .filter((entry) => entry.startsWith("pack"))
+            .map((entry) => entry.slice(entry.indexOf(":") + 2));
           const unpackedEntries = [];
           if (fs.existsSync(unpackedDir)) {
             for (const entry of fs.readdirSync(unpackedDir, { withFileTypes: true, recursive: true })) {
@@ -220,13 +223,21 @@ jobs:
           }
 
           const allEntries = [...asarEntries, ...unpackedEntries];
-          for (const requiredPkg of ["@img/sharp-darwin-arm64", "@img/sharp-libvips-darwin-arm64"]) {
+          const requiredArm64 = [
+            "node-pty/prebuilds/darwin-arm64/pty.node",
+            "node-pty/prebuilds/darwin-arm64/spawn-helper",
+            "@msgpackr-extract/msgpackr-extract-darwin-arm64",
+            "sherpa-onnx-darwin-arm64",
+            "@esbuild/darwin-arm64/bin/esbuild",
+          ];
+          for (const requiredPkg of requiredArm64) {
             if (!allEntries.some((entry) => entry.includes(requiredPkg))) {
               throw new Error(`Missing required arm64 prebuild in app bundle: ${requiredPkg}`);
             }
           }
 
           const forbiddenX64 = [
+            "node-pty/prebuilds/darwin-x64",
             "sharp-darwin-x64",
             "sharp-libvips-darwin-x64",
             "sherpa-onnx-darwin-x64",
@@ -238,7 +249,7 @@ jobs:
             throw new Error(`Found forbidden darwin-x64 runtime entries in app bundle:\n${unexpected.slice(0, 20).join("\n")}`);
           }
           console.log(
-            `Verified app.asar (${asarEntries.length} entries) and app.asar.unpacked (${unpackedEntries.length} entries): sharp arm64 present, 0 darwin-x64 runtime packages.`,
+            `Verified app.asar (${asarEntries.length} entries) and app.asar.unpacked (${unpackedEntries.length} entries): all 5 darwin-arm64 runtime prebuilds present, 0 darwin-x64 runtime packages.`,
           );
           NODE
 
