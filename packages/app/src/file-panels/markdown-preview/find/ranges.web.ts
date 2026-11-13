@@ -2,10 +2,11 @@ export const MATCH_STATUS_LIMIT = 10_000;
 
 const BLOCKS = ["p", "pre", "li", "td", "th", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote"]
   .flatMap((tag) => [tag, `[data-paseo-markdown-tag="${tag}"]`])
+  .concat('math[display="block"]')
   .join(",");
 const LINE_BREAKS = "br";
 const IGNORED =
-  '[data-paseo-markdown-ignore="true"], [aria-hidden="true"], button, [role="button"], svg, script, style';
+  '[data-paseo-markdown-ignore="true"], [aria-hidden="true"], button, [role="button"], svg, script, style, annotation, annotation-xml';
 
 export interface MarkdownPreviewMatchResult {
   ranges: Range[];

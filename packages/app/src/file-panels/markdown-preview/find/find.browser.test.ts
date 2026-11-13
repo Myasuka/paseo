@@ -195,3 +195,28 @@ it("falls back to native DOM Selection when CSS Custom Highlights are unavailabl
     });
   }
 });
+
+it("matches visible MathML glyphs once and skips hidden TeX annotations", () => {
+  const { frame } = createPreviewSurface(`
+    <p>
+      Interval
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <semantics>
+          <mrow><mtext>floorLevel</mtext></mrow>
+          <annotation encoding="application/x-tex">\\text{floorLevel}</annotation>
+        </semantics>
+      </math>
+    </p>
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+      <semantics>
+        <mrow><mtext>ReadSet</mtext></mrow>
+        <annotation encoding="application/x-tex">\\text{ReadSet}</annotation>
+      </semantics>
+    </math>
+    <p>Next block</p>
+  `);
+
+  expect(findMarkdownPreviewMatches(frame, "floorLevel").ranges).toHaveLength(1);
+  expect(findMarkdownPreviewMatches(frame, "ReadSet").ranges).toHaveLength(1);
+  expect(findMarkdownPreviewMatches(frame, "ReadSetNext").ranges).toHaveLength(0);
+});
