@@ -1,0 +1,85 @@
+$ npm ls katex
+paseo@0.16.0-beta.2 <repo>
+└─┬ @getpaseo/app@0.16.0-beta.2 -> ./packages/app
+  ├── katex@0.16.47
+  ├─┬ mermaid@11.16.0
+  │ └── katex@0.16.47 deduped
+  └─┬ react-native-enriched-markdown@1.2.0-nightly-20261014-766fc0e67
+    └── katex@0.16.47 deduped
+
+
+$ (cd packages/app && npx vitest run --project unit src/components/markdown/math.test.ts src/components/markdown/renderer.test.ts --bail=1 --maxWorkers=1)
+
+ RUN  v4.1.7 <repo>/packages/app
+
+ ✓ |unit| src/components/markdown/math.test.ts (15 tests) 51ms
+ ✓ |unit| src/components/markdown/renderer.test.ts (191 tests) 906ms
+   ✓ normalizes a large HTML table into one block per row  673ms
+
+ Test Files  2 passed (2)
+      Tests  206 passed (206)
+   Start at  04:27:43
+   Duration  15.52s (transform 13.44s, setup 100ms, import 16.65s, tests 957ms, environment 1ms)
+
+
+$ (cd packages/app && npx vitest run --project browser src/components/markdown/math.browser.test.tsx src/assistant-selection-copy/content.browser.test.ts src/agent-stream/chat-find/ranges.browser.test.ts --bail=1 --maxWorkers=1)
+
+ RUN  v4.1.7 <repo>/packages/app
+
+ ✓ |browser (chromium)| src/components/markdown/math.browser.test.tsx (3 tests) 227ms
+ ✓ |browser (chromium)| src/assistant-selection-copy/content.browser.test.ts (55 tests) 56ms
+ ✓ |browser (chromium)| src/agent-stream/chat-find/ranges.browser.test.ts (9 tests) 11ms
+
+ Test Files  3 passed (3)
+      Tests  67 passed (67)
+   Start at  04:28:00
+   Duration  5.22s (transform 0ms, setup 0ms, import 3.68s, tests 293ms, environment 0ms)
+
+
+$ (cd packages/app && E2E_RECORD_VIDEO=1 npx playwright test --config=playwright.config.ts e2e/browser/latex-math-rendering.spec.ts)
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:17687
+[metro] Logs for your project will appear below.
+[metro] Web Bundled 3749ms packages/app/index.ts (5888 modules)
+[e2e] Metro warmed on port 17687
+
+Running 1 test using 1 worker
+
+[e2e] Worker 0 daemon started on port 15699, home: /tmp/paseo-e2e-worker-0-KZaxcb
+[metro] Web Bundled 314ms packages/app/index.ts (1 module)
+[metro] Web Bundled 54ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/stores/navigation-active-workspace-store/index.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/plugins/client-state/source.ts -> src/plugins/client-state/connected-hosts.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/client-state/api.ts -> src/plugins/client-state/source.ts -> src/plugins/client-state/terminals.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/react-native/ui.ts -> src/plugins/react-native/markdown.tsx -> src/components/markdown/renderer.tsx -> src/agent-commands/index.tsx -> src/agent-commands/use-query.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+  ✓  1 [browser] › e2e/browser/latex-math-rendering.spec.ts:46:5 › renders inline and display LaTeX as MathML across chat and Markdown preview while preserving currency literals (11.0s)
+[e2e] Worker 0 daemon stopped
+[e2e] Metro stopped
+
+  1 passed (32.5s)
