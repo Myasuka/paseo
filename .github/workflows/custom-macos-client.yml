@@ -9,12 +9,12 @@ on:
       runner:
         description: "GitHub-hosted macOS runner label"
         required: false
-        default: "macos-26-intel"
+        default: "macos-latest"
         type: choice
         options:
+          - macos-latest
           - macos-26-intel
           - macos-15-intel
-          - macos-latest
 
 concurrency:
   group: custom-macos-client-${{ github.ref }}
@@ -29,7 +29,7 @@ env:
 jobs:
   macos-arm64:
     name: Build macOS arm64 (.dmg & .zip)
-    runs-on: ${{ inputs.runner || 'macos-26-intel' }}
+    runs-on: ${{ inputs.runner || 'macos-latest' }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$(uname -m)" == "arm64" ]]; then
-            echo "Host is already arm64; darwin-arm64 optionalDependencies were installed by npm ci."
+            echo "Host is native arm64; darwin-arm64 optionalDependencies were installed by npm ci."
             exit 0
           fi
           node <<'NODE'
@@ -108,7 +108,7 @@ jobs:
           }
           NODE
 
-      - name: Package, ad-hoc sign, and verify macOS arm64 (.dmg & .zip)
+      - name: Package, ad-hoc sign, smoke-test, and verify macOS arm64 (.dmg & .zip)
         shell: bash
         env:
           EP_GH_IGNORE_TIME: "true"
@@ -127,6 +127,8 @@ jobs:
               --publish never \
               --mac \
               --arm64 \
+              -c.publish.owner=Myasuka \
+              -c.publish.repo=paseo \
               -c.mac.identity=- \
               -c.mac.hardenedRuntime=false \
               -c.mac.notarize=false
@@ -148,18 +150,109 @@ jobs:
             fi
           done < <(find "$APP_BUNDLE" -name "*.node" -print0)
 
-          echo "=== Verify bundled resources & Apple code signature ==="
+          echo "=== Verify bundled resources, updater target, & Apple code signature ==="
           test -f "$APP_BUNDLE/Contents/Resources/app-dist/index.html"
           test -d "$APP_BUNDLE/Contents/Resources/builtin-plugins"
           test -x "$APP_BUNDLE/Contents/Resources/bin/paseo"
+          if [[ -f "$APP_BUNDLE/Contents/Resources/app-update.yml" ]]; then
+            cat "$APP_BUNDLE/Contents/Resources/app-update.yml"
+            grep -q "owner: Myasuka" "$APP_BUNDLE/Contents/Resources/app-update.yml"
+          fi
           codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
           codesign -dv --verbose=4 "$APP_BUNDLE" 2>&1 || true
+
+          DMG_FILE="$(basename "$(ls packages/desktop/release/*-arm64.dmg | head -n 1)")"
+          INSTALLER_PATH="packages/desktop/release/install-macos.sh"
+          cat > "$INSTALLER_PATH" <<'INSTALLER_EOF'
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          REPO="${PASEO_RELEASE_REPO:-Myasuka/paseo}"
+          TAG="${PASEO_RELEASE_TAG:-custom-macos-client}"
+          DMG_NAME="__DMG_FILE__"
+          BASE_URL="https://github.com/${REPO}/releases/download/${TAG}"
+
+          if [[ "$(uname -s)" != "Darwin" ]]; then
+            echo "Error: install-macos.sh must be run on macOS (detected $(uname -s))." >&2
+            echo "Please run this command inside Terminal / iTerm2 on your Mac." >&2
+            exit 1
+          fi
+
+          ARCH="$(uname -m)"
+          if [[ "$ARCH" != "arm64" ]]; then
+            echo "Error: Prebuilt installer targets Apple Silicon (arm64), detected ${ARCH}." >&2
+            exit 1
+          fi
+
+          TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/paseo-custom-install.XXXXXX")"
+          MNT_DIR="${TMP_DIR}/mnt"
+          mkdir -p "$MNT_DIR"
+
+          cleanup() {
+            if mount | grep -Fq "on ${MNT_DIR} "; then
+              hdiutil detach "$MNT_DIR" -quiet || hdiutil detach "$MNT_DIR" -force -quiet || true
+            fi
+            rm -rf "$TMP_DIR"
+          }
+          trap cleanup EXIT
+
+          echo "==> Downloading ${DMG_NAME} and SHA256SUMS.txt from ${REPO}@${TAG} ..."
+          curl -fL --retry 3 -o "${TMP_DIR}/SHA256SUMS.txt" "${BASE_URL}/SHA256SUMS.txt"
+          curl -fL --retry 3 --progress-bar -o "${TMP_DIR}/${DMG_NAME}" "${BASE_URL}/${DMG_NAME}"
+
+          echo "==> Verifying SHA256 checksum ..."
+          EXPECTED_SHA="$(awk -v rel="./${DMG_NAME}" -v bare="${DMG_NAME}" '$2 == rel || $2 == bare { print $1; exit }' "${TMP_DIR}/SHA256SUMS.txt")"
+          ACTUAL_SHA="$(shasum -a 256 "${TMP_DIR}/${DMG_NAME}" | awk '{ print $1 }')"
+          if [[ -z "$EXPECTED_SHA" || "$ACTUAL_SHA" != "$EXPECTED_SHA" ]]; then
+            echo "Error: SHA256 mismatch for ${DMG_NAME} (expected ${EXPECTED_SHA:-missing}, got ${ACTUAL_SHA})" >&2
+            exit 1
+          fi
+          echo "    SHA256 verified: ${ACTUAL_SHA}"
+
+          INSTALL_DIR="${PASEO_INSTALL_DIR:-/Applications}"
+          if [[ ! -w "$INSTALL_DIR" ]]; then
+            INSTALL_DIR="${HOME}/Applications"
+            mkdir -p "$INSTALL_DIR"
+          fi
+          TARGET_APP="${INSTALL_DIR}/Paseo.app"
+
+          if pgrep -x "Paseo" >/dev/null 2>&1; then
+            echo "==> Closing running Paseo.app ..."
+            osascript -e 'tell application "Paseo" to quit' >/dev/null 2>&1 || true
+            for _ in 1 2 3 4 5; do
+              pgrep -x "Paseo" >/dev/null 2>&1 || break
+              sleep 1
+            done
+            pkill -x "Paseo" >/dev/null 2>&1 || true
+          fi
+
+          echo "==> Mounting ${DMG_NAME} ..."
+          hdiutil attach "${TMP_DIR}/${DMG_NAME}" -nobrowse -readonly -mountpoint "$MNT_DIR" -quiet
+
+          echo "==> Installing Paseo.app to ${TARGET_APP} ..."
+          rm -rf "$TARGET_APP"
+          ditto "${MNT_DIR}/Paseo.app" "$TARGET_APP"
+          xattr -cr "$TARGET_APP"
+          codesign --verify --deep --strict "$TARGET_APP"
+
+          hdiutil detach "$MNT_DIR" -quiet || true
+
+          echo "==> Installed successfully: ${TARGET_APP}"
+          if [[ "${PASEO_NO_OPEN:-0}" != "1" ]]; then
+            echo "==> Launching Paseo.app ..."
+            open -a "$TARGET_APP"
+          fi
+          INSTALLER_EOF
+          sed -i.bak "s/__DMG_FILE__/${DMG_FILE}/g" "$INSTALLER_PATH"
+          rm -f "${INSTALLER_PATH}.bak"
+          chmod +x "$INSTALLER_PATH"
+          bash -n "$INSTALLER_PATH"
 
           echo "=== Built release artifacts ==="
           ls -lh packages/desktop/release/
           (
             cd packages/desktop/release
-            shasum -a 256 ./*.dmg ./*.zip | tee SHA256SUMS.txt
+            shasum -a 256 ./*.dmg ./*.zip ./install-macos.sh | tee SHA256SUMS.txt
           )
 
       - name: Upload packaged smoke diagnostics
@@ -178,6 +271,7 @@ jobs:
           path: |
             packages/desktop/release/*.dmg
             packages/desktop/release/*.zip
+            packages/desktop/release/install-macos.sh
             packages/desktop/release/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 30
@@ -194,15 +288,23 @@ jobs:
           cat > "$NOTES_FILE" <<EOF
           ## Paseo Custom macOS Client (\`arm64\` Apple Silicon)
 
-          Built from commit \`${GITHUB_SHA}\` on branch \`${GITHUB_REF_NAME}\` with verified \`arm64\` Mach-O binaries and \`codesign --verify --deep --strict\` ad-hoc signature.
+          Built natively on Apple Silicon from commit \`${GITHUB_SHA}\` (\`${GITHUB_REF_NAME}\`), verified via \`PASEO_DESKTOP_SMOKE=1\` packaged desktop launch smoke test, \`arm64\` Mach-O addon audit, and \`codesign --verify --deep --strict\` ad-hoc signature.
+
+          ### One-Command Install / Upgrade (Recommended)
+          Run in Terminal on your Apple Silicon Mac (downloads \`.dmg\`, verifies SHA256, installs to \`/Applications/Paseo.app\`, strips Gatekeeper quarantine, and opens Paseo):
+
+          \`\`\`bash
+          curl -fsSL https://github.com/Myasuka/paseo/releases/download/custom-macos-client/install-macos.sh | bash
+          \`\`\`
 
           ### Included Customizations
-          - **Markdown Preview Find (\`Cmd+F\`)**: In-pane search bar with CSS Custom Highlight API highlighting, match navigation (\`Enter\` / \`Shift+Enter\`), and auto-scroll.
+          - **LaTeX / KaTeX MathML Rendering (Chat & Markdown Preview)**: Native \`<math>\` MathML rendering for \`\$...$\` inline and \`\$\$...\$\$\` display formulas (including CJK-adjacent math and \`aligned\`/\`pmatrix\`), strict currency & shell \`\$\` protection, server + client Chat Find indexing for Unicode math symbols (\`α\`, \`θ\`, \`≤\`), and \`Cmd+C\` LaTeX source copy.
+          - **Markdown Preview Find (\`Cmd+F\`)**: In-pane search bar with CSS Custom Highlight API highlighting, pane-focus-safe Selection fallback, match navigation (\`Enter\` / \`Shift+Enter\`), and auto-scroll.
           - **Changes Diff Find (\`Cmd+F\`)**: Full-model literal case-insensitive search across all diff hunks (including offscreen rows) with Canvas box highlights and vertical/horizontal auto-scroll.
-          - **macOS Top Tab Arrow Shortcuts**: Switch workspace tabs with \`Cmd+Option+Left/Right\` (\`⌥⌘←\` / \`⌥⌘→\`) globally, or \`Cmd+Left/Right\` (\`⌘←\` / \`⌘→\`) when focus is outside text inputs, terminals, and embedded browser views.
+          - **macOS Top Tab Shortcuts**: Switch workspace tabs with \`Cmd+Shift+[\` / \`Cmd+Shift+]\` (\`⌘⇧[\` / \`⌘⇧]\`), \`Cmd+Option+Left/Right\` (\`⌥⌘←\` / \`⌥⌘→\`) globally, or \`Cmd+Left/Right\` (\`⌘←\` / \`⌘→\`) when focus is outside text inputs, terminals, floating menus, and embedded browser views.
 
-          ### First Launch on macOS (Ad-hoc Signed)
-          Because this build uses ad-hoc code signing without Apple paid notarization, remove the Gatekeeper quarantine attribute once after installing \`Paseo.app\` into \`/Applications\`:
+          ### Manual Install (\`.dmg\`)
+          If installing manually from the \`.dmg\`, remove the macOS Gatekeeper quarantine attribute once after dragging \`Paseo.app\` into \`/Applications\`:
 
           \`\`\`bash
           xattr -cr /Applications/Paseo.app
@@ -226,6 +328,7 @@ jobs:
           gh release upload "$RELEASE_TAG" \
             packages/desktop/release/*.dmg \
             packages/desktop/release/*.zip \
+            packages/desktop/release/install-macos.sh \
             packages/desktop/release/SHA256SUMS.txt \
             --repo "${{ github.repository }}" \
             --clobber
