@@ -420,6 +420,8 @@ export const fr: TranslationResources = {
     },
     turnFooter: {
       workedFor: "A travaillé pendant {{duration}}",
+      completedAt: "Terminé à {{timestamp}}",
+      workedForAt: "A travaillé pendant {{duration}} · Terminé à {{timestamp}}",
     },
     compaction: {
       loading: "Compaction…",

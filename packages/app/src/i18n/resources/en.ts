@@ -412,6 +412,8 @@ export const en = {
     },
     turnFooter: {
       workedFor: "Worked for {{duration}}",
+      completedAt: "Ended {{timestamp}}",
+      workedForAt: "Worked for {{duration}} · Ended {{timestamp}}",
     },
     compaction: {
       loading: "Compacting...",
