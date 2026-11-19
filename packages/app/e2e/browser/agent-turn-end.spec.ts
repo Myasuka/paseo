@@ -398,8 +398,8 @@ test.describe("Turn end", () => {
 });
 
 async function expectTimingInsideFooter(page: Page): Promise<void> {
-  const label = page.getByRole("button", { name: /^Worked for/ }).last();
-  const paintedLines = await label.getByTestId("turn-footer-timing-label").evaluate((element) => {
+  const label = page.getByTestId("turn-footer-timing-label").last();
+  const paintedLines = await label.evaluate((element) => {
     const labelBounds = element.parentElement!.getBoundingClientRect();
     const rowBounds = element.closest('[data-testid="turn-footer"]')!.getBoundingClientRect();
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
@@ -427,8 +427,10 @@ async function expectFooterWithinWidth(page: Page, width: number): Promise<void>
   await footer.evaluate((element, availableWidth) => {
     element.style.width = `${availableWidth}px`;
   }, width);
-  const label = page.getByRole("button", { name: /^Worked for/ }).last();
+  const label = footer.getByTestId("turn-footer-timing-label");
   await expect(label).toBeVisible();
+  await expect(label).toContainText("Worked for");
+  await expect(label).toContainText(/\d:\d\d/);
   await expectTimingInsideFooter(page);
   const controls = footer.getByRole("button", { name: /Copy turn|Fork chat/ });
   const before = await controls.evaluateAll((elements) =>
@@ -440,7 +442,8 @@ async function expectFooterWithinWidth(page: Page, width: number): Promise<void>
   const footerBefore = await footer.boundingBox();
   const labelBefore = await label.boundingBox();
   await label.hover({ position: { x: labelBefore!.width - 2, y: labelBefore!.height - 2 } });
-  await expect(label.getByTestId("turn-footer-timing-label")).toContainText(/\d:\d\d/);
+  await expect(label).toContainText("Worked for");
+  await expect(label).toContainText(/\d:\d\d/);
   expect(await label.boundingBox()).toMatchObject({
     x: labelBefore!.x,
     width: labelBefore!.width,
@@ -461,10 +464,11 @@ async function expectFooterWithinWidth(page: Page, width: number): Promise<void>
   });
   await expectTimingInsideFooter(page);
   await page.mouse.move(0, 0);
-  await expect(label.getByTestId("turn-footer-timing-label")).toContainText("Worked for");
+  await expect(label).toContainText("Worked for");
+  await expect(label).toContainText(/\d:\d\d/);
 }
 
-test("footer timing fits the chat column and swapping labels keeps controls in place", async ({
+test("footer timing fits the chat column and shows duration and end time together", async ({
   page,
   agent,
 }) => {

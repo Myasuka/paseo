@@ -420,6 +420,8 @@ export const es: TranslationResources = {
     },
     turnFooter: {
       workedFor: "Trabajó durante {{duration}}",
+      completedAt: "Finalizó {{timestamp}}",
+      workedForAt: "Trabajó durante {{duration}} · Finalizó {{timestamp}}",
     },
     compaction: {
       loading: "Compactando...",

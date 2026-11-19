@@ -68,27 +68,33 @@ function paintedLinesByLabel(element: HTMLElement): Record<string, number> {
   return lines;
 }
 
-// The footer shows the duration and swaps to the end timestamp on hover or tap. Neither label
-// may be sized by the other: a timestamp with more characters can still paint narrower.
+// The footer shows both the turn duration and completion timestamp together by default.
 it.each([
   {
     language: "en",
     timing: { completedAt: FRIDAY_NIGHT, durationMs: 26_000 },
-    duration: "Worked for 26s",
+    expected: "Worked for 26s · Ended Friday 11:11 PM",
   },
-  // CJK glyphs make the shorter string paint wider in every font.
+  {
+    language: "zh-CN",
+    timing: { completedAt: FRIDAY_NIGHT, durationMs: 59 * 60_000 + 58_000 },
+    expected: "工作了 59m 58s · 完成于 Friday 11:11 PM",
+  },
+  // CJK glyphs make the combined timing label paint wider in every font.
   {
     language: "ja",
     timing: { completedAt: FRIDAY_NIGHT, durationMs: 59 * 60_000 + 58_000 },
-    duration: "作業時間 59m 58s",
+    expected: "作業時間 59m 58s · Friday 11:11 PM 完了",
   },
-])("keeps both timing labels on one line when the chat has room ($language)", async (input) => {
-  await i18n.changeLanguage(input.language);
+])(
+  "keeps the combined timing label on one line when the chat has room ($language)",
+  async (input) => {
+    await i18n.changeLanguage(input.language);
 
-  renderCompletedFooter(input.timing);
+    renderCompletedFooter(input.timing);
 
-  expect(paintedLinesByLabel(host)).toEqual({
-    [input.duration]: 1,
-    "Friday 11:11 PM": 1,
-  });
-});
+    expect(paintedLinesByLabel(host)).toEqual({
+      [input.expected]: 1,
+    });
+  },
+);

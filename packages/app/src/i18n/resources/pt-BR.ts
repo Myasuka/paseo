@@ -419,6 +419,8 @@ export const ptBR: TranslationResources = {
     },
     turnFooter: {
       workedFor: "Trabalhou por {{duration}}",
+      completedAt: "Concluído {{timestamp}}",
+      workedForAt: "Trabalhou por {{duration}} · Concluído {{timestamp}}",
     },
     compaction: {
       loading: "Compactando...",

@@ -416,6 +416,8 @@ export const ko: TranslationResources = {
     },
     turnFooter: {
       workedFor: "작업 시간 {{duration}}",
+      completedAt: "{{timestamp}} 완료",
+      workedForAt: "작업 시간 {{duration}} · {{timestamp}} 완료",
     },
     compaction: {
       loading: "압축하는 중...",

@@ -419,6 +419,8 @@ export const ru: TranslationResources = {
     },
     turnFooter: {
       workedFor: "Время работы: {{duration}}",
+      completedAt: "Завершено {{timestamp}}",
+      workedForAt: "Время работы: {{duration}} · Завершено {{timestamp}}",
     },
     compaction: {
       loading: "Сжатие контекста...",

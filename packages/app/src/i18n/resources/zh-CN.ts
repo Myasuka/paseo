@@ -415,6 +415,8 @@ export const zhCN: TranslationResources = {
     },
     turnFooter: {
       workedFor: "工作了 {{duration}}",
+      completedAt: "完成于 {{timestamp}}",
+      workedForAt: "工作了 {{duration}} · 完成于 {{timestamp}}",
     },
     compaction: {
       loading: "正在压缩...",
