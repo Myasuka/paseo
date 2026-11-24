@@ -391,7 +391,7 @@ jobs:
           cat > "$NOTES_FILE" <<EOF
           ## Paseo Custom macOS Client (\`arm64\` Apple Silicon)
 
-          Built from commit \`${GITHUB_SHA}\` (\`${GITHUB_REF_NAME}\`), verified via \`PASEO_DESKTOP_SMOKE=1\` packaged desktop launch smoke test, \`arm64\` Mach-O addon audit, and \`codesign --verify --deep --strict\` ad-hoc signature.
+          Built on upstream Paseo \`v0.17.4\` from commit \`${GITHUB_SHA}\` (\`${GITHUB_REF_NAME}\`), verified via \`PASEO_DESKTOP_SMOKE=1\` packaged desktop launch smoke test, \`arm64\` Mach-O addon audit, and \`codesign --verify --deep --strict\` ad-hoc signature.
 
           ### One-Command Install / Upgrade (Recommended)
           Run in Terminal on your Apple Silicon Mac (downloads \`.dmg\`, verifies SHA256, installs to \`/Applications/Paseo.app\`, strips Gatekeeper quarantine, and opens Paseo):
@@ -406,6 +406,7 @@ jobs:
           - **Changes Diff Find (\`Cmd+F\`)**: Full-model literal case-insensitive search across all diff hunks (including offscreen rows) with Canvas box highlights and vertical/horizontal auto-scroll.
           - **macOS Top Tab Shortcuts**: Switch workspace tabs with \`Cmd+Shift+[\` / \`Cmd+Shift+]\` (\`⌘⇧[\` / \`⌘⇧]\`), \`Cmd+Option+Left/Right\` (\`⌥⌘←\` / \`⌥⌘→\`) globally, or \`Cmd+Left/Right\` (\`⌘←\` / \`⌘→\`) when focus is outside text inputs, terminals, floating menus, and embedded browser views.
           - **In-App \`paseo://\` Agent Deep Links (Markdown)**: Recognize explicit, bare prose (with CJK/English punctuation boundaries), and inline-code \`paseo://h/<serverId>/agent/<agentId>\` links across chat messages, plan cards, file Markdown previews, and PR panels, navigating directly in-app across workspaces and archived conversations.
+          - **Turn Footer Completed Time**: Display each completed turn's finish timestamp alongside duration (e.g. \`Worked for 26s · Ended Friday 11:11 PM\`) with locale-aware single-line presentation when space permits.
 
           ### Manual Install (\`.dmg\`)
           If installing manually from the \`.dmg\`, remove the macOS Gatekeeper quarantine attribute once after dragging \`Paseo.app\` into \`/Applications\`:
