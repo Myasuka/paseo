@@ -432,7 +432,8 @@ async function expectFooterWithinWidth(page: Page, width: number): Promise<void>
   await expect(label).toContainText("Worked for");
   await expect(label).toContainText(/\d:\d\d/);
   await expectTimingInsideFooter(page);
-  const controls = footer.getByRole("button", { name: /Copy turn|Fork chat/ });
+  await expect(footer.getByRole("button", { name: "Turn stats" })).toBeVisible();
+  const controls = footer.getByRole("button", { name: /Copy turn|Fork chat|Turn stats/ });
   const before = await controls.evaluateAll((elements) =>
     elements.map((element) => {
       const rect = element.getBoundingClientRect();
